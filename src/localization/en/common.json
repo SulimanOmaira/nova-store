@@ -1,0 +1,73 @@
+{
+  "general": {
+    "success": "Operation completed successfully"
+  },
+  "errors": {
+    "INTERNAL_SERVER_ERROR": "Internal server error occurred.",
+    "UNKNOWN_ERROR": "An unexpected error occurred.",
+
+    "UNAUTHORIZED": "You are not authorized to perform this action.",
+    "FORBIDDEN": "Access to this resource is denied.",
+    "INVALID_TOKEN": "The provided token is invalid.",
+    "EXPIRED_TOKEN": "Your session has expired. Please log in again.",
+    "TOKEN_MISSING": "Authentication token is missing.",
+
+    "VALIDATION_FAILED": "Validation failed for one or more fields.",
+    "REQUIRED_FIELD": "This field is required.",
+    "INVALID_FORMAT": "Invalid data format.",
+    "INVALID_EMAIL": "Email format is invalid.",
+    "INVALID_PHONE": "Phone number is invalid.",
+    "INVALID_PASSWORD": "Password does not meet the required criteria.",
+    "PASSWORD_MISMATCH": "Passwords do not match.",
+    "MIN_LENGTH": "Value is too short.",
+    "MAX_LENGTH": "Value is too long.",
+    "INVALID_NUMBER": "Value must be a number.",
+    "INVALID_DATE": "Invalid date format.",
+    "INVALID_ENUM": "Invalid value.",
+
+    "USER_NOT_FOUND": "User not found.",
+    "CUSTOMER_NOT_FOUND": "Customer not found.",
+    "ADMIN_NOT_FOUND": "Admin not found.",
+    "SESSION_NOT_FOUND": "Session not found.",
+    "RESOURCE_NOT_FOUND": "The requested resource could not be found.",
+    "CITY_NOT_FOUND": "City not found.",
+    "LANG_NOT_FOUND": "Language not found.",
+    "STATUS_NOT_FOUND": "Status not found.",
+
+    "ALREADY_EXISTS": "Record already exists.",
+    "EMAIL_ALREADY_EXISTS": "This email is already registered.",
+    "PHONE_ALREADY_EXISTS": "This phone number is already registered.",
+    "USERNAME_ALREADY_EXISTS": "This username is already taken.",
+    "RECORD_ALREADY_EXISTS": "This record already exists.",
+
+    "INVALID_CREDENTIALS": "Incorrect email or password.",
+    "WRONG_PASSWORD": "Wrong password.",
+    "ACCOUNT_DISABLED": "This account has been disabled.",
+    "ACCOUNT_NOT_VERIFIED": "Account is not verified.",
+    "ACCOUNT_BLOCKED": "This account has been blocked.",
+    "LOGIN_FAILED": "Login failed. Please check your credentials.",
+
+    "DB_CONNECTION_ERROR": "Database connection error.",
+    "DB_CONSTRAINT_ERROR": "Database constraint error.",
+    "DB_WRITE_ERROR": "Error writing to the database.",
+    "DB_READ_ERROR": "Error reading from the database.",
+
+    "SERVER_BUSY": "Server is busy, please try again later.",
+    "SERVICE_UNAVAILABLE": "Service is temporarily unavailable.",
+    "TIMEOUT": "Request timeout.",
+
+    "PAYLOAD_TOO_LARGE": "The request payload is too large.",
+    "BAD_REQUEST": "Invalid request.",
+    "MISSING_PARAMETERS": "Missing required parameters.",
+    "INVALID_PARAMETERS": "Invalid parameters provided.",
+
+    "NOT_ALLOWED": "This action is not allowed.",
+    "METHOD_NOT_ALLOWED": "HTTP method not allowed.",
+
+    "RATE_LIMIT_EXCEEDED": "Too many requests. Please try again later.",
+
+    "OTP_INVALID": "Invalid verification code.",
+    "OTP_EXPIRED": "Verification code has expired.",
+    "OTP_REQUIRED": "Verification code is required."
+  }
+}

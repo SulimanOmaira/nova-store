@@ -1,0 +1,73 @@
+{
+  "general": {
+    "success": "تمت العملية بنجاح"
+  },
+  "errors": {
+    "INTERNAL_SERVER_ERROR": "حدث خطأ غير متوقع في الخادم.",
+    "UNKNOWN_ERROR": "حدث خطأ غير معروف.",
+
+    "UNAUTHORIZED": "غير مصرح لك بتنفيذ هذا الإجراء.",
+    "FORBIDDEN": "تم منع الوصول إلى هذا المورد.",
+    "INVALID_TOKEN": "رمز التوثيق غير صالح.",
+    "EXPIRED_TOKEN": "انتهت صلاحية الجلسة. يرجى تسجيل الدخول مرة أخرى.",
+    "TOKEN_MISSING": "رمز التوثيق مفقود.",
+
+    "VALIDATION_FAILED": "فشل التحقق من صحة بعض الحقول.",
+    "REQUIRED_FIELD": "هذا الحقل مطلوب.",
+    "INVALID_FORMAT": "تنسيق البيانات غير صالح.",
+    "INVALID_EMAIL": "صيغة البريد الإلكتروني غير صحيحة.",
+    "INVALID_PHONE": "رقم الهاتف غير صالح.",
+    "INVALID_PASSWORD": "كلمة المرور لا تلبي المعايير المطلوبة.",
+    "PASSWORD_MISMATCH": "كلمتا المرور غير متطابقتين.",
+    "MIN_LENGTH": "القيمة أقصر من الحد المسموح.",
+    "MAX_LENGTH": "القيمة أطول من الحد المسموح.",
+    "INVALID_NUMBER": "القيمة يجب أن تكون رقمًا.",
+    "INVALID_DATE": "صيغة التاريخ غير صالحة.",
+    "INVALID_ENUM": "القيمة غير صالحة.",
+
+    "USER_NOT_FOUND": "المستخدم غير موجود.",
+    "CUSTOMER_NOT_FOUND": "العميل غير موجود.",
+    "ADMIN_NOT_FOUND": "المسؤول غير موجود.",
+    "SESSION_NOT_FOUND": "الجلسة غير موجودة.",
+    "RESOURCE_NOT_FOUND": "العنصر المطلوب غير موجود.",
+    "CITY_NOT_FOUND": "المدينة غير موجودة.",
+    "LANG_NOT_FOUND": "اللغة غير موجودة.",
+    "STATUS_NOT_FOUND": "الرمز غير موجود.",
+
+    "ALREADY_EXISTS": "السجل موجود مسبقًا.",
+    "EMAIL_ALREADY_EXISTS": "هذا البريد الإلكتروني مستخدم مسبقًا.",
+    "PHONE_ALREADY_EXISTS": "رقم الهاتف مستخدم مسبقًا.",
+    "USERNAME_ALREADY_EXISTS": "اسم المستخدم مستخدم مسبقًا.",
+    "RECORD_ALREADY_EXISTS": "هذا السجل موجود مسبقًا.",
+
+    "INVALID_CREDENTIALS": "البريد الإلكتروني أو كلمة المرور غير صحيحة.",
+    "WRONG_PASSWORD": "كلمة المرور غير صحيحة.",
+    "ACCOUNT_DISABLED": "تم تعطيل هذا الحساب.",
+    "ACCOUNT_NOT_VERIFIED": "الحساب غير مفعّل.",
+    "ACCOUNT_BLOCKED": "تم حظر هذا الحساب.",
+    "LOGIN_FAILED": "فشل تسجيل الدخول. يرجى التحقق من البيانات.",
+
+    "DB_CONNECTION_ERROR": "خطأ في الاتصال بقاعدة البيانات.",
+    "DB_CONSTRAINT_ERROR": "خطأ في قيود قاعدة البيانات.",
+    "DB_WRITE_ERROR": "حدث خطأ أثناء الكتابة في قاعدة البيانات.",
+    "DB_READ_ERROR": "حدث خطأ أثناء القراءة من قاعدة البيانات.",
+
+    "SERVER_BUSY": "الخادم مشغول حاليًا. يرجى المحاولة لاحقًا.",
+    "SERVICE_UNAVAILABLE": "الخدمة غير متوفرة مؤقتًا.",
+    "TIMEOUT": "انتهت مهلة الطلب.",
+
+    "PAYLOAD_TOO_LARGE": "حجم الطلب كبير جدًا.",
+    "BAD_REQUEST": "طلب غير صالح.",
+    "MISSING_PARAMETERS": "هناك حقول مطلوبة مفقودة.",
+    "INVALID_PARAMETERS": "تم إرسال بيانات غير صالحة.",
+
+    "NOT_ALLOWED": "هذا الإجراء غير مسموح.",
+    "METHOD_NOT_ALLOWED": "طريقة الطلب HTTP غير مسموحة.",
+
+    "RATE_LIMIT_EXCEEDED": "عدد الطلبات كبير جدًا. يرجى المحاولة لاحقًا.",
+
+    "OTP_INVALID": "رمز التحقق غير صحيح.",
+    "OTP_EXPIRED": "انتهت صلاحية رمز التحقق.",
+    "OTP_REQUIRED": "رمز التحقق مطلوب."
+  }
+}
