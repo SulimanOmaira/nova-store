@@ -82,6 +82,7 @@ export class AuthService {
     Status_Id: dto.Status_Id,
     City_Id: dto.City_Id,
     Lang_Id: dto.Lang_Id,
+    Adress: dto.Adress,
     Created_At: new Date(),
     Created_By: userID
   });
