@@ -3,7 +3,7 @@ import {
   Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn,
 } from 'typeorm';
 
-@Entity('A_User')
+@Entity('a_user')
 export class AUser {
   @PrimaryGeneratedColumn('increment', { type: 'bigint' })
   Id: string;

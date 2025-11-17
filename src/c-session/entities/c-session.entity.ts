@@ -1,7 +1,7 @@
 import { CCustomer } from 'src/c-customer/entities/c-customer.entity';
 import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
 
-@Entity('C_Session')
+@Entity('c_session')
 export class CSession {
   @PrimaryGeneratedColumn('increment', { type: 'bigint' })
   Id: string;
@@ -12,8 +12,8 @@ export class CSession {
 
   @Column({ type: 'bigint' }) User_Id: string;
 
-  @Column({ type: 'longtext' }) Access_Token: string;
-  @Column({ type: 'longtext', nullable: true }) Refresh_Token?: string;
+  @Column({ type: 'text' }) Access_Token: string;
+  @Column({ type: 'text', nullable: true }) Refresh_Token?: string;
   @Column({ length: 500, nullable: true }) Device_Token?: string;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })

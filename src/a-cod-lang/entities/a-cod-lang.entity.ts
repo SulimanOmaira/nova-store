@@ -1,6 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('A_Cod_Lang')
+@Entity('a_cod_lang')
 export class ACodLang {
   @PrimaryGeneratedColumn('increment', { type: 'bigint' })
   Id: string;

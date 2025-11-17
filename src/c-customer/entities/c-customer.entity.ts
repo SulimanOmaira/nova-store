@@ -6,7 +6,7 @@ import {
 } from 'typeorm';
 
 
-@Entity('C_Customer')
+@Entity('c_customer')
 export class CCustomer {
   @PrimaryGeneratedColumn('increment', { type: 'bigint' })
   Id: string;
@@ -39,7 +39,7 @@ export class CCustomer {
 
   @Column({ length: 255 }) Password: string;
 
-  @Column({ type: 'longtext', nullable: true }) Image_Base64?: string;
+  @Column({ type: 'text', nullable: true }) Image_Base64?: string;
 
   @Column({ length: 100, nullable: true }) Rem?: string;
 

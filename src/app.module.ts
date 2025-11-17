@@ -46,18 +46,24 @@ import * as path from 'path';
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (cfg: ConfigService) => ({
-        type: 'mysql',
+        type: 'postgres',
+        // type: 'mysql',
         host: cfg.get<string>('DB_HOST'),
         port: cfg.get<number>('DB_PORT'),
         username: cfg.get<string>('DB_USERNAME'),
         password: cfg.get<string>('DB_PASSWORD'),
         database: cfg.get<string>('DB_NAME'),
-        charset: 'utf8mb4',
-        timezone: 'Z',
+        // charset: 'utf8mb4',
+        // timezone: 'Z',
+            ssl: {
+      rejectUnauthorized: false,
+    },
+      dropSchema: true,    // 🟢 يمسح كل الجداول ويعيد بناءها كل مرة
+      autoLoadEntities: true, 
         // اجمع الكيانات تلقائياً
         entities: [__dirname + '/**/*.entity.{ts,js}'],
         // لا تفعلها في الإنتاج؛ استخدم الهجرات
-        synchronize: false,
+        synchronize: true,
         migrations: [__dirname + '/migrations/*.{ts,js}'],
       }),
     }), ACodStatusModule, ACodLangModule, AUserModule, ASessionModule, UCodCityModule, CCustomerModule, CSessionModule,

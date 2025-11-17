@@ -1,6 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('U_Cod_City')
+@Entity('u_cod_city')
 export class UCodCity {
   @PrimaryGeneratedColumn('increment', { type: 'bigint' })
   Id: string;

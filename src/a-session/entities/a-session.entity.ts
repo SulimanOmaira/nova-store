@@ -1,7 +1,7 @@
 import { AUser } from 'src/a-user/entities/a-user.entity';
 import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
 
-@Entity('A_Session')
+@Entity('a_session')
 export class ASession {
   @PrimaryGeneratedColumn('increment', { type: 'bigint' })
   Id: string;
