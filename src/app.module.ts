@@ -58,7 +58,7 @@ import * as path from 'path';
             ssl: {
       rejectUnauthorized: false,
     },
-      dropSchema: true,    // 🟢 يمسح كل الجداول ويعيد بناءها كل مرة
+      dropSchema: false,    // 🟢 يمسح كل الجداول ويعيد بناءها كل مرة
       autoLoadEntities: true, 
         // اجمع الكيانات تلقائياً
         entities: [__dirname + '/**/*.entity.{ts,js}'],
