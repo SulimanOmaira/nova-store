@@ -47,7 +47,7 @@ export class AuthService {
     const access = await this.issueAccessToken(admin.Id, 'admin');
     await this.aSessions.save({
       User_Id: admin.Id as any,
-      Token: access,
+      Access_Token: access,
       Device_Token: deviceToken,
       Created_At: new Date(),
     });
