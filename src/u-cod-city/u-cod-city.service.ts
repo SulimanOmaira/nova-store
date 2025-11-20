@@ -48,6 +48,30 @@ export class UCodCityService {
     };
   }
 
+   async update(id: string, updatedBy: string, dto: UpdateUCodCityDto) {
+      const city = await this.cities.findOne({ where: { Id: id as any } });
+      
+      if (!city) {
+        throw new NotFoundException('common.errors.CUSTOMER_NOT_FOUND');
+      }
+
+  
+      if (dto.Ar_Name !== undefined) city.Ar_Name = dto.Ar_Name;
+      if (dto.En_Name !== undefined) city.En_Name = dto.En_Name;
+      
+      dto.Updated_By = updatedBy;
+      city.Updated_By = dto.Updated_By;
+      city.Updated_At = new Date();
+      
+      await this.cities.save(city);
+      
+      return {
+        code: 'CUSTOMER_UPDATED',
+        data: city,
+      };
+    }
+  
+  
   async remove(id: string) {
     const customer = await this.cities.findOne({ where: { Id: id as any } });
 

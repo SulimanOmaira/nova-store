@@ -11,12 +11,12 @@ import { RolesGuard } from 'src/auth/roles.guard';
 export class ACodLangController {
   constructor(private readonly aCodLangService: ACodLangService) {}
 
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN)
-  @Post('create')
-  create(@Body() createACodLangDto: CreateACodLangDto) {
-    return this.aCodLangService.create(createACodLangDto);
-  }
+  // @UseGuards(JwtAuthGuard, RolesGuard)
+  // @Roles(Role.ADMIN)
+  // @Post('create')
+  // create(@Body() createACodLangDto: CreateACodLangDto) {
+  //   return this.aCodLangService.create(createACodLangDto);
+  // }
 
   @Get('all')
   findAll() {
@@ -27,7 +27,7 @@ export class ACodLangController {
   findOne(@Param('id') id: string) {
     return this.aCodLangService.findOne(id);
   }
-
+                                                                                    
   // @UseGuards(JwtAuthGuard, RolesGuard)
   // @Roles(Role.ADMIN)
   // @Patch('update/:id')
@@ -35,10 +35,10 @@ export class ACodLangController {
   //   return this.aCodLangService.update(+id, updateACodLangDto);
   // }
 
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN)
-  @Delete('delete/:id')
-  remove(@Param('id') id: string) {
-    return this.aCodLangService.remove(id);
-  }
+  // @UseGuards(JwtAuthGuard, RolesGuard)
+  // @Roles(Role.ADMIN)
+  // @Delete('delete/:id')
+  // remove(@Param('id') id: string) {
+  //   return this.aCodLangService.remove(id);
+  // }
 }

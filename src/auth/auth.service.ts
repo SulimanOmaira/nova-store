@@ -82,6 +82,7 @@ export class AuthService {
     Status_Id: dto.Status_Id,
     City_Id: dto.City_Id,
     Lang_Id: dto.Lang_Id,
+    Adress: dto.Adress,
     Created_At: new Date(),
     Created_By: userID
   });
@@ -98,7 +99,7 @@ export class AuthService {
     const access = await this.issueAccessToken(user.Id, 'customer');
     await this.cSessions.save({
       User_Id: user.Id as any,
-      Token: access,
+      Access_Token: access,
       Device_Token: deviceToken,
       Created_At: new Date(),
     });

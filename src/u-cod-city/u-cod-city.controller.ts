@@ -29,12 +29,13 @@ export class UCodCityController {
     return this.uCodCityService.findOne(id);
   }
 
-  // @UseGuards(JwtAuthGuard, RolesGuard)
-  // @Roles(Role.ADMIN)
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateUCodCityDto: UpdateUCodCityDto) {
-  //   return this.uCodCityService.update(+id, updateUCodCityDto);
-  // }
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
+  @Patch('update/:id')
+  update(@Param('id') id: string,@Req() req,@Body() updateUCodCityDto: UpdateUCodCityDto) {
+      const userID = req.user.userID;
+    return this.uCodCityService.update(id, userID, updateUCodCityDto);
+  }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN)

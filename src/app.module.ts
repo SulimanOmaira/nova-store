@@ -46,8 +46,9 @@ import * as path from 'path';
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (cfg: ConfigService) => ({
-        type: 'postgres',
+        // type: 'postgres',
         // type: 'mysql',
+        // type: cfg.get<string>('Type'),
         host: cfg.get<string>('DB_HOST'),
         port: cfg.get<number>('DB_PORT'),
         username: cfg.get<string>('DB_USERNAME'),
@@ -55,15 +56,15 @@ import * as path from 'path';
         database: cfg.get<string>('DB_NAME'),
         // charset: 'utf8mb4',
         // timezone: 'Z',
-            ssl: {
-      rejectUnauthorized: false,
-    },
+    //         ssl: {
+    //   rejectUnauthorized: false,
+    // },
       dropSchema: false,    // 🟢 يمسح كل الجداول ويعيد بناءها كل مرة
       autoLoadEntities: true, 
         // اجمع الكيانات تلقائياً
         entities: [__dirname + '/**/*.entity.{ts,js}'],
         // لا تفعلها في الإنتاج؛ استخدم الهجرات
-        synchronize: true,
+        // synchronize: true,
         migrations: [__dirname + '/migrations/*.{ts,js}'],
       }),
     }), ACodStatusModule, ACodLangModule, AUserModule, ASessionModule, UCodCityModule, CCustomerModule, CSessionModule,
