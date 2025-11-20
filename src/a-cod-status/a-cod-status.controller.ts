@@ -16,7 +16,7 @@ export class ACodStatusController {
   @Post('create')
   create(@Req() req ,@Body() createACodStatusDto: CreateACodStatusDto) {
     const userID = req.user.userId;
-    return this.aCodStatusService.create(createACodStatusDto, userID);
+    return this.aCodStatusService.create(createACodStatusDto);
   }
 
   @Get('all')

@@ -12,7 +12,7 @@ export class ACodStatusService {
     private readonly status: Repository<ACodStatus>,
   ) {}
 
-  async create(dto: CreateACodStatusDto , userID: string) {
+  async create(dto: CreateACodStatusDto) {
     const exists = await this.status.findOne({ 
       where: [
       {Ar_Name: dto.Ar_Name},
