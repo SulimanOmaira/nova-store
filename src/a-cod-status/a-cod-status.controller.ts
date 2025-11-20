@@ -11,13 +11,13 @@ import { RolesGuard } from 'src/auth/roles.guard';
 export class ACodStatusController {
   constructor(private readonly aCodStatusService: ACodStatusService) {}
   
-  // @UseGuards(JwtAuthGuard, RolesGuard)
-  // @Roles(Role.ADMIN)
-  // @Post('create')
-  // create(@Req() req ,@Body() createACodStatusDto: CreateACodStatusDto) {
-  //   const userID = req.user.userId;
-  //   return this.aCodStatusService.create(createACodStatusDto, userID);
-  // }
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
+  @Post('create')
+  create(@Req() req ,@Body() createACodStatusDto: CreateACodStatusDto) {
+    const userID = req.user.userId;
+    return this.aCodStatusService.create(createACodStatusDto, userID);
+  }
 
   @Get('all')
   findAll() {
