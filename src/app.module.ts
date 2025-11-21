@@ -56,9 +56,9 @@ import * as path from 'path';
         database: cfg.get<string>('DB_NAME'),
         // charset: 'utf8mb4',
         // timezone: 'Z',
-    //         ssl: {
-    //   rejectUnauthorized: false,
-    // },
+            ssl: {
+      rejectUnauthorized: false,
+    },
       dropSchema: false,    // 🟢 يمسح كل الجداول ويعيد بناءها كل مرة
       autoLoadEntities: true, 
         // اجمع الكيانات تلقائياً

@@ -31,9 +31,7 @@ export class UCodCityService {
     const list = await this.cities.find({
       order: { Id: 'DESC' },
     });
-    return {
-      data: list
-    };
+    return list;
   }
 
   async findOne(id: string) {
@@ -43,9 +41,7 @@ export class UCodCityService {
     if (!city) {
       throw new NotFoundException('common.errors.CUSTOMER_NOT_FOUND');
     }
-    return {
-      data:city,
-    };
+    return city;
   }
 
    async update(id: string, updatedBy: string, dto: UpdateUCodCityDto) {
@@ -65,10 +61,10 @@ export class UCodCityService {
       
       await this.cities.save(city);
       
-      return {
-        code: 'CUSTOMER_UPDATED',
-        data: city,
-      };
+      // return {
+      //   data: city,
+      // };
+      return city;
     }
   
   

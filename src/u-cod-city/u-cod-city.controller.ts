@@ -32,7 +32,7 @@ export class UCodCityController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN)
   @Patch('update/:id')
-  update(@Param('id') id: string,@Req() req,@Body() updateUCodCityDto: UpdateUCodCityDto) {
+  update(@Param('id') id: string, @Req() req, @Body() updateUCodCityDto: UpdateUCodCityDto) {
       const userID = req.user.userID;
     return this.uCodCityService.update(id, userID, updateUCodCityDto);
   }
