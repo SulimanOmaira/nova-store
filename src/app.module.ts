@@ -13,6 +13,7 @@ import {
   HeaderResolver,
   AcceptLanguageResolver,
  } from 'nestjs-i18n';
+import { SyncModule } from './sync/sync.module';
 import * as path from 'path';
 
 
@@ -67,7 +68,7 @@ import * as path from 'path';
         // synchronize: true,
         migrations: [__dirname + '/migrations/*.{ts,js}'],
       }),
-    }), ACodStatusModule, ACodLangModule, AUserModule, ASessionModule, UCodCityModule, CCustomerModule, CSessionModule,
+    }), ACodStatusModule, ACodLangModule, AUserModule, ASessionModule, UCodCityModule, CCustomerModule, CSessionModule, SyncModule,
     // ... Modules (UsersModule, CodesModule, AuthModule, CustomersModule, CitiesModule)
   ],
 })
