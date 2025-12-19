@@ -17,7 +17,6 @@ import {
   OrderSyncDto,
   StoreSyncDto,
   CashboxSyncDto,
-  UserSyncDto,
   ItemSyncDto,
   StatSyncDto,
   LogSyncDto,
