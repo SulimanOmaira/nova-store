@@ -1,14 +1,34 @@
 // src/sync/dto/base-sync.dto.ts
 
+import { IsBoolean, IsISO8601, IsOptional, IsString, IsNumber } from 'class-validator';
+
 export class OrderSyncDto {
+  @IsString()
   id: string;
+
+  @IsOptional()
+  @IsString()
   customer?: string;
+
+  @IsOptional()
+  @IsString()
   status?: string;
+
+  @IsOptional()
+  @IsNumber()
   total?: number;
-  date?: string; // ISO string
+
+  @IsOptional()
+  @IsISO8601()
+  date?: string;
+
+  @IsBoolean()
   isDeleted: boolean;
-  updatedAt: string; // ISO string
+
+  @IsISO8601()
+  updatedAt: string;
 }
+
 
 export class StoreSyncDto {
   id: string;
@@ -27,15 +47,6 @@ export class CashboxSyncDto {
   amount: number;
   note?: string;
   date?: string;
-  isDeleted: boolean;
-  updatedAt: string;
-}
-
-export class UserSyncDto {
-  id: string;
-  name: string;
-  role?: string;
-  pin?: string;
   isDeleted: boolean;
   updatedAt: string;
 }
