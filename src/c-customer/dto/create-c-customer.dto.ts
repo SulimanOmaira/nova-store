@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsOptional, IsString } from "class-validator";
+import { IsEmail, IsNotEmpty, IsOptional, IsString, MaxLength } from "class-validator";
 
 export class CreateCCustomerDto {
   @IsString()
@@ -47,4 +47,9 @@ export class CreateCCustomerDto {
   @IsOptional()
   @IsString()
   Created_By?:String
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(255)
+  StoreName?: string;
 }

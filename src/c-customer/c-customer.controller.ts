@@ -5,6 +5,7 @@ import { Roles } from 'src/auth/roles.decorator';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { Role } from 'src/auth/role.enum';
 import { RolesGuard } from 'src/auth/roles.guard';
+import { randomUUID } from 'crypto';
 
 @Controller('customer')
 export class CCustomerController {
@@ -51,5 +52,7 @@ export class CCustomerController {
   deleteCustomer(@Param('id') id: string) {
     return this.cCustomerService.remove(id);
   }
+
+
 
 }

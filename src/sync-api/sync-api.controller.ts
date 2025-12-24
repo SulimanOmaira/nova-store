@@ -21,4 +21,5 @@ export class SyncApiController {
   async push(@Body() body: SyncPushBodyDto): Promise<SyncPushResult> {
     return this.syncService.push(body);
   }
+  
 }

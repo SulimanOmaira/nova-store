@@ -66,7 +66,7 @@ import { SyncApiModule } from './sync-api/sync-api.module';
         // اجمع الكيانات تلقائياً
         entities: [__dirname + '/**/*.entity.{ts,js}'],
         // لا تفعلها في الإنتاج؛ استخدم الهجرات
-        synchronize: true,
+        // synchronize: true,
         migrations: [__dirname + '/migrations/*.{ts,js}'],
       }),
     }), ACodStatusModule, ACodLangModule, AUserModule, ASessionModule, UCodCityModule, CCustomerModule, CSessionModule, SyncModule,SyncApiModule,
