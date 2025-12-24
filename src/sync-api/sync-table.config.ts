@@ -18,7 +18,7 @@ export const SYNC_TABLES: SyncTableConfig[] = [
     storeCol: 'id',            // stores نفسه PK هو store id
     updatedCol: 'updatedAt',   // عندك updatedAt في entity لكن DB column اسمها updatedAt؟ أنت سميتها "updatedAt"
     // إذا DB عندك "updatedAt" اكتبها هنا، إذا "updatedat" اكتبها كما هي
-    columns: ['name', 'address', 'status', 'logo', 'isdeleted', 'updatedat'],
+    columns: ['name', 'address', 'status', 'logo', 'isDeleted', 'updatedAt'],
   },
 
   {
@@ -26,12 +26,12 @@ export const SYNC_TABLES: SyncTableConfig[] = [
     table: 'products',
     pk: 'id',
     storeCol: 'store_id',
-    updatedCol: 'updatedat',
-    deletedCol: 'isdeleted',
+    updatedCol: 'updatedAt',
+    deletedCol: 'isDeleted',
     columns: [
       'store_id','name','category','quantity','minquantity','buyprice','sellprice',
-      'notes','imagepath','supplier_id','unit','barcode','createdat','updatedat',
-      'isdeleted','dirty',
+      'notes','imagepath','supplier_id','unit','barcode','createdat','updatedAt',
+      'isDeleted','dirty',
     ],
   },
 
@@ -81,11 +81,11 @@ export const SYNC_TABLES: SyncTableConfig[] = [
     table: 'customer_transactions',
     pk: 'id',
     storeCol: 'store_id',
-    updatedCol: 'updatedat',
-    deletedCol: 'isdeleted',
+    updatedCol: 'updatedAt',
+    deletedCol: 'isDeleted',
     columns: [
       'store_id','customer_id','invoice_id','amount','type','note','date',
-      'createdat','updatedat','isdeleted','dirty',
+      'createdat','updatedAt','isDeleted','dirty',
     ],
   },
 
