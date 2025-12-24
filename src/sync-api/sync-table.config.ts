@@ -139,7 +139,7 @@ export const SYNC_TABLES: SyncTableConfig[] = [
     table: 'items',
     pk: 'id',
     storeCol: 'store_id',
-    updatedCol: 'updatedat', // عندك updatedAt (بدون mapping) — عدله حسب DB
+    updatedCol: 'updatedAt', // عندك updatedAt (بدون mapping) — عدله حسب DB
     deletedCol: 'isDeleted',
     columns: ['route','title','icon','isDeleted','updatedAt','store_id'],
   },
