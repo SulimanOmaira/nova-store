@@ -1,5 +1,5 @@
-// src/sync/entities/item.entity.ts
-import { Entity, PrimaryColumn, Column } from 'typeorm';
+import { Entity, PrimaryColumn, Column, JoinColumn, ManyToOne } from 'typeorm';
+import { Store } from './store.entity';
 
 @Entity('items')
 export class ItemEntity {
@@ -20,4 +20,14 @@ export class ItemEntity {
 
   @Column({ type: 'timestamp' })
   updatedAt: Date;
+
+  @Column({ type: 'uuid', name: 'store_id' })
+  storeId: string;
+
+  // @ManyToOne(() => Store, (s) => s.items, { onDelete: 'CASCADE' })
+  // @JoinColumn({ name: 'store_id' })
+  // store: Store;
+    @ManyToOne(() => Store, (s) => s.items, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'store_id' })
+  store: Store;
 }

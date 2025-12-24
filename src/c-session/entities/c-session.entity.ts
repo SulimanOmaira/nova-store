@@ -1,4 +1,4 @@
-import { CCustomer } from 'src/c-customer/entities/c-customer.entity';
+import { Customer } from 'src/c-customer/entities/c-customer.entity';
 import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
 
 @Entity('c_session')
@@ -6,9 +6,9 @@ export class CSession {
   @PrimaryGeneratedColumn('increment', { type: 'bigint' })
   Id: string;
 
-  @ManyToOne(() => CCustomer, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
+  @ManyToOne(() => Customer, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
   @JoinColumn({ name: 'User_Id', referencedColumnName: 'Id' })
-  customer: CCustomer;
+  customer: Customer;
 
   @Column({ type: 'bigint' }) User_Id: string;
 

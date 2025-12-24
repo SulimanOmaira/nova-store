@@ -1,13 +1,17 @@
 import { ACodLang } from 'src/a-cod-lang/entities/a-cod-lang.entity';
 import { ACodStatus } from 'src/a-cod-status/entities/a-cod-status.entity';
+import { CustomerTransaction } from 'src/sync/entities/customer-transaction.entity';
+import { Invoice } from 'src/sync/entities/invoice.entity';
+import { Store } from 'src/sync/entities/store.entity';
 import { UCodCity } from 'src/u-cod-city/entities/u-cod-city.entity';
 import {
   Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn,
+  OneToMany,
 } from 'typeorm';
 
 
 @Entity('c_customer')
-export class CCustomer {
+export class Customer {
   @PrimaryGeneratedColumn('increment', { type: 'bigint' })
   Id: string;
 
@@ -48,5 +52,21 @@ export class CCustomer {
   @Column({ type: 'bigint', nullable: true }) Updated_By?: string;
   @Column({ type: 'timestamp', nullable: true }) Updated_At?: Date;
   @Column({ type: 'boolean', default: false }) isDeleted: boolean;
+  
+  @Column({ type: 'uuid', name: 'store_id' })
+  storeId: string;
 
+    @ManyToOne(() => Store, (store) => store.customers, {
+    onDelete: 'RESTRICT',
+    onUpdate: 'CASCADE',
+  })
+
+    @JoinColumn({ name: 'store_id' })
+  store: Store;
+  
+  @OneToMany(() => CustomerTransaction, (t) => t.customer)
+  transactions: CustomerTransaction[];
+
+  @OneToMany(() => Invoice, (i) => i.customer)
+invoices: Invoice[];
 }

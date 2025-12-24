@@ -1,20 +1,44 @@
-// src/sync/entities/log.entity.ts
-import { Entity, PrimaryColumn, Column } from 'typeorm';
+import {
+  Column,
+  Entity,
+  Index,
+  JoinColumn,
+  ManyToOne,
+  PrimaryColumn,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { Store } from './store.entity';
 
-@Entity('logs')
+@Entity({ name: 'logs' })
+@Index(['storeId'])
+@Index(['timestamp'])
 export class LogEntity {
-  @PrimaryColumn({ type: 'varchar', length: 50 })
-  id: string;
+  // @PrimaryGeneratedColumn('uuid')
+  @PrimaryColumn('uuid')
+  id: string; // UUID PK :contentReference[oaicite:1]{index=1}
+
+  @Column({ name: 'store_id', type: 'uuid' })
+  storeId: string;
 
   @Column({ type: 'text' })
   action: string;
 
-  @Column({ type: 'timestamp' })
+  // كان TEXT في SQLite → نخليه timestamptz
+  @Column({ type: 'timestamptz' })
   timestamp: Date;
 
-  @Column({ type: 'boolean', default: false })
+  // في SQLite عندك updatedAt نص. هنا نخليه UpdateDateColumn تلقائيًا.
+  @UpdateDateColumn({ name: 'updated_at', type: 'timestamptz' })
+  updatedAt: Date;
+
+  @Column({ name: 'is_deleted', type: 'boolean', default: false })
   isDeleted: boolean;
 
-  @Column({ type: 'timestamp' })
-  updatedAt: Date;
+  @Column({ type: 'boolean', default: false })
+  dirty: boolean;
+
+  @ManyToOne(() => Store, (s) => s.logs, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'store_id' })
+  store: Store;
 }

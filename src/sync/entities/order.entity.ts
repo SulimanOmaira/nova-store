@@ -1,14 +1,18 @@
-// src/sync/entities/order.entity.ts
 import {
   Entity,
   PrimaryColumn,
   Column,
+  JoinColumn,
+  ManyToOne,
 } from 'typeorm';
+import { Store } from './store.entity';
 
 @Entity('orders')
 export class OrderEntity {
-  @PrimaryColumn({ type: 'varchar', length: 50 })
-  id: string; // نفس id اللي في الجهاز
+  // @PrimaryColumn({ type: 'varchar', length: 50 })
+  // id: string; // نفس id اللي في الجهاز
+  @PrimaryColumn('uuid')
+  id: string; 
 
   @Column({ type: 'varchar', length: 255, nullable: true })
   customer: string | null;
@@ -28,4 +32,16 @@ export class OrderEntity {
   // مهم لـ LWW
   @Column({ type: 'timestamp' })
   updatedAt: Date;
+
+  
+  @Column({ type: 'uuid', name: 'store_id' })
+  storeId: string;
+
+  @ManyToOne(() => Store, (s) => s.orders, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'store_id' })
+  store: Store;
+
+  @Column({ type: 'bigint', name: 'customer_id', nullable: true })
+  customerId: string | null; // لأن Customer عندك bigint
 }
+

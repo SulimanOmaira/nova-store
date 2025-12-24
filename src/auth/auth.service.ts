@@ -4,7 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AUser } from 'src/a-user/entities/a-user.entity';
-import { CCustomer } from 'src/c-customer/entities/c-customer.entity';
+import { Customer } from 'src/c-customer/entities/c-customer.entity';
 import { ASession } from 'src/a-session/entities/a-session.entity';
 import { CSession } from 'src/c-session/entities/c-session.entity';
 import { CreateAUserDto } from 'src/a-user/dto/create-a-user.dto';
@@ -16,7 +16,7 @@ export class AuthService {
   constructor(
     private jwt: JwtService,
     @InjectRepository(AUser) private aUsers: Repository<AUser>,
-    @InjectRepository(CCustomer) private customers: Repository<CCustomer>,
+    @InjectRepository(Customer) private customers: Repository<Customer>,
     @InjectRepository(ASession) private aSessions: Repository<ASession>,
     @InjectRepository(CSession) private cSessions: Repository<CSession>,
   ) {}
@@ -95,7 +95,7 @@ export class AuthService {
   };
 }
 
-  async loginCustomer(user: CCustomer, deviceToken?: string) {
+  async loginCustomer(user: Customer, deviceToken?: string) {
     const access = await this.issueAccessToken(user.Id, 'customer');
     await this.cSessions.save({
       User_Id: user.Id as any,

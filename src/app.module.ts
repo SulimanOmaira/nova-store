@@ -15,6 +15,7 @@ import {
  } from 'nestjs-i18n';
 import { SyncModule } from './sync/sync.module';
 import * as path from 'path';
+import { SyncApiModule } from './sync-api/sync-api.module';
 
 
 @Module({
@@ -65,10 +66,10 @@ import * as path from 'path';
         // اجمع الكيانات تلقائياً
         entities: [__dirname + '/**/*.entity.{ts,js}'],
         // لا تفعلها في الإنتاج؛ استخدم الهجرات
-        // synchronize: true,
+        synchronize: true,
         migrations: [__dirname + '/migrations/*.{ts,js}'],
       }),
-    }), ACodStatusModule, ACodLangModule, AUserModule, ASessionModule, UCodCityModule, CCustomerModule, CSessionModule, SyncModule,
+    }), ACodStatusModule, ACodLangModule, AUserModule, ASessionModule, UCodCityModule, CCustomerModule, CSessionModule, SyncModule,SyncApiModule,
     // ... Modules (UsersModule, CodesModule, AuthModule, CustomersModule, CitiesModule)
   ],
 })

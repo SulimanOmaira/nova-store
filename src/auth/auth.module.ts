@@ -8,7 +8,7 @@ import { AuthController } from './auth.controller';
 import { AdminLocalStrategy } from './admin.local.strategy';
 import { AUser } from 'src/a-user/entities/a-user.entity';
 import { ASession } from 'src/a-session/entities/a-session.entity';
-import { CCustomer } from 'src/c-customer/entities/c-customer.entity';
+import { Customer } from 'src/c-customer/entities/c-customer.entity';
 import { CSession } from 'src/c-session/entities/c-session.entity';
 import { CustomerLocalStrategy } from './customer-local.strategy';
 import { JwtStrategy } from './jwt.strategy';
@@ -18,7 +18,7 @@ import { JwtStrategy } from './jwt.strategy';
   imports: [
     ConfigModule,
     PassportModule,
-    TypeOrmModule.forFeature([AUser, ASession, CCustomer, CSession]),
+    TypeOrmModule.forFeature([AUser, ASession, Customer, CSession]),
     JwtModule.registerAsync({
       inject: [ConfigService],
   useFactory: (cfg: ConfigService) => {
