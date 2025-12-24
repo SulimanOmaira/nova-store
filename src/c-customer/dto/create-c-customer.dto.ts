@@ -47,4 +47,9 @@ export class CreateCCustomerDto {
   @IsOptional()
   @IsString()
   Created_By?:String
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(255)
+  StoreName?: string;
 }
