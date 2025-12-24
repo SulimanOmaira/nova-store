@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsOptional, IsString } from "class-validator";
+import { IsEmail, IsNotEmpty, IsOptional, IsString , MaxLength} from "class-validator";
 
 export class CreateCCustomerDto {
   @IsString()
