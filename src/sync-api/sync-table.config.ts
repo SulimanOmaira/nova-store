@@ -16,7 +16,7 @@ export const SYNC_TABLES: SyncTableConfig[] = [
     table: 'stores',
     pk: 'id',
     storeCol: 'id',            // stores نفسه PK هو store id
-    updatedCol: 'updatedat',   // عندك updatedAt في entity لكن DB column اسمها updatedAt؟ أنت سميتها "updatedAt"
+    updatedCol: 'updatedAt',   // عندك updatedAt في entity لكن DB column اسمها updatedAt؟ أنت سميتها "updatedAt"
     // إذا DB عندك "updatedAt" اكتبها هنا، إذا "updatedat" اكتبها كما هي
     columns: ['name', 'address', 'status', 'logo', 'isdeleted', 'updatedat'],
   },
@@ -149,7 +149,7 @@ export const SYNC_TABLES: SyncTableConfig[] = [
     table: 'orders',
     pk: 'id',
     storeCol: 'store_id',
-    updatedCol: 'updatedat',
+    updatedCol: 'updatedAt',
     deletedCol: 'isDeleted',
     columns: ['customer','status','total','date','isDeleted','updatedAt','store_id','customer_id'],
   },
