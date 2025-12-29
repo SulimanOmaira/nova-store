@@ -17,16 +17,16 @@ import { Product } from './product.entity';
 @Index(['productId'])
 export class InvoiceItem {
   // @PrimaryGeneratedColumn('uuid')
-  @PrimaryColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn('increment')
+  id: number;
 
   // FK: invoice_id
-  @Column({ name: 'invoice_id', type: 'uuid' })
-  invoiceId: string;
+  @Column({ name: 'invoice_id', type: 'int' })
+  invoiceId: number;
 
   // FK: product_id
-  @Column({ name: 'product_id', type: 'uuid' })
-  productId: string;
+  @Column({ name: 'product_id', type: 'int' })
+  productId: number;
 
   @Column({ name: 'product_name', type: 'text' })
   productName: string;

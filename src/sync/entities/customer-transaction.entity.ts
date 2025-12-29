@@ -8,8 +8,8 @@ import {
   ManyToOne,
   JoinColumn,
   Index,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
-import { v4 as uuidv4 } from 'uuid';
 import { Store } from './store.entity';
 import { Customer } from 'src/c-customer/entities/c-customer.entity';
 import { Invoice } from './invoice.entity';
@@ -29,17 +29,17 @@ export enum TransactionType {
 @Index(['type'])
 @Index(['storeId', 'customerId', 'isDeleted'])
 export class CustomerTransaction {
-  @PrimaryColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn('increment')
+  id: number;
 
-  @Column({ type: 'uuid', name: 'store_id' })
-  storeId: string;
+  @Column({ type: 'int', name: 'store_id' })
+  storeId: number;
 
   @Column({ type: 'bigint', name: 'customer_id' })
-  customerId: string;
+  customerId: number;
 
-  @Column({ type: 'uuid', name: 'invoice_id', nullable: true })
-  invoiceId: string | null;
+  @Column({ type: 'int', name: 'invoice_id', nullable: true })
+  invoiceId: number | null;
 
   @Column({
     type: 'decimal',
@@ -74,14 +74,14 @@ export class CustomerTransaction {
 
   @UpdateDateColumn({
     type: 'timestamp',
-    name: 'updatedat',
+    name: 'updated_at',
     default: () => 'CURRENT_TIMESTAMP',
   })
-  updatedAt: Date;
+  Updated_At: Date;
 
   @Column({
     type: 'boolean',
-    name: 'isdeleted',
+    name: 'is_deleted',
     default: false,
   })
   isDeleted: boolean;
@@ -134,11 +134,5 @@ export class CustomerTransaction {
 
   get isInvoiceRelated(): boolean {
     return this.type === TransactionType.DEBIT || this.type === TransactionType.CREDIT;
-  }
-
-  constructor() {
-    if (!this.id) {
-      this.id = uuidv4();
-    }
   }
 }

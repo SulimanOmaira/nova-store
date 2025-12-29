@@ -4,6 +4,7 @@ import {
   Column,
   JoinColumn,
   ManyToOne,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Store } from './store.entity';
 
@@ -11,8 +12,8 @@ import { Store } from './store.entity';
 export class OrderEntity {
   // @PrimaryColumn({ type: 'varchar', length: 50 })
   // id: string; // نفس id اللي في الجهاز
-  @PrimaryColumn('uuid')
-  id: string; 
+  @PrimaryGeneratedColumn('increment')
+  id: number; 
 
   @Column({ type: 'varchar', length: 255, nullable: true })
   customer: string | null;
@@ -26,16 +27,16 @@ export class OrderEntity {
   @Column({ type: 'timestamp', nullable: true })
   date: Date | null;
 
-  @Column({ type: 'boolean', default: false })
+  @Column({name : 'is_deleted', type: 'boolean', default: false })
   isDeleted: boolean;
 
   // مهم لـ LWW
-  @Column({ type: 'timestamp' })
-  updatedAt: Date;
+  @Column({name: 'updated_at', type: 'timestamp' })
+  Updated_At: Date;
 
   
-  @Column({ type: 'uuid', name: 'store_id' })
-  storeId: string;
+  @Column({ type: 'int', name: 'store_id' })
+  storeId: number;
 
   @ManyToOne(() => Store, (s) => s.orders, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'store_id' })

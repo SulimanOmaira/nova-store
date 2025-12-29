@@ -25,18 +25,18 @@ export type SupplierTransactionType = 'debit' | 'credit' | 'payment';
 @Check(`"type" IN ('debit','credit','payment')`)
 export class SupplierTransaction {
 //   @PrimaryGeneratedColumn('uuid')
-@PrimaryColumn('uuid')
-  id: string; // :contentReference[oaicite:2]{index=2}
+  @PrimaryGeneratedColumn('increment')
+  id: number; // :contentReference[oaicite:2]{index=2}
 
-  @Column({ name: 'store_id', type: 'uuid' })
-  storeId: string;
+  @Column({ name: 'store_id', type: 'int' })
+  storeId: number;
 
-  @Column({ name: 'supplier_id', type: 'uuid' })
-  supplierId: string |null;
+  @Column({ name: 'supplier_id', type: 'int' })
+  supplierId: number |null;
 
   // nullable كما عندك في SQLite
-  @Column({ name: 'invoice_id', type: 'uuid', nullable: true })
-  invoiceId?: string | null;
+  @Column({ name: 'invoice_id', type: 'int', nullable: true })
+  invoiceId?: number | null;
 
   // قيم مالية => numeric
   @Column({ type: 'numeric', precision: 14, scale: 2 })
@@ -56,7 +56,7 @@ export class SupplierTransaction {
   createdAt: Date;
 
   @UpdateDateColumn({ name: 'updated_at', type: 'timestamptz' })
-  updatedAt: Date;
+  Updated_At: Date;
 
   @Column({ name: 'is_deleted', type: 'boolean', default: false })
   isDeleted: boolean;

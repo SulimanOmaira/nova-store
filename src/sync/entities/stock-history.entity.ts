@@ -7,23 +7,23 @@ import {
   ManyToOne,
   JoinColumn,
   Index,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
-import { v4 as uuidv4 } from 'uuid';
-import { Product } from './product.entity';
+ import { Product } from './product.entity';
 import { Store } from './store.entity';
 
 @Entity('stock_history')
 @Index(['storeId', 'createdAt'])
 @Index(['productId', 'createdAt'])
 export class StockHistory {
-  @PrimaryColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn('increment')
+  id: number;
 
-  @Column({ type: 'uuid', name: 'store_id' })
-  storeId: string;
+  @Column({ type: 'int', name: 'store_id' })
+  storeId: number;
 
-  @Column({ type: 'uuid', name: 'product_id' })
-  productId: string;
+  @Column({ type: 'int', name: 'product_id' })
+  productId: number;
 
   @Column({
     type: 'decimal',
@@ -64,7 +64,7 @@ export class StockHistory {
 
   @Column({
     type: 'boolean',
-    name: 'isdeleted',
+    name: 'is_deleted',
     default: false,
   })
   isDeleted: boolean;
@@ -87,10 +87,5 @@ export class StockHistory {
   })
   @JoinColumn({ name: 'store_id' })
   store: Store;
-
-  constructor() {
-    if (!this.id) {
-      this.id = uuidv4();
-    }
-  }
+  
 }

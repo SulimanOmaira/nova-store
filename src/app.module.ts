@@ -62,6 +62,7 @@ import { SyncApiModule } from './sync-api/sync-api.module';
       rejectUnauthorized: false,
     },
       dropSchema: false,    // 🟢 يمسح كل الجداول ويعيد بناءها كل مرة
+      synchronize: true,
       autoLoadEntities: true, 
         // اجمع الكيانات تلقائياً
         entities: [__dirname + '/**/*.entity.{ts,js}'],

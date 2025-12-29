@@ -8,9 +8,9 @@ import {
   ManyToOne,
   JoinColumn,
   OneToMany,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
-import { v4 as uuidv4 } from 'uuid';
-import { Supplier } from './supplier.entity';
+ import { Supplier } from './supplier.entity';
 import { StockHistory } from './stock-history.entity';
 import { InvoiceItem } from './invoice-item.entity';
 import { Store } from './store.entity';
@@ -18,11 +18,11 @@ import { Store } from './store.entity';
 
 @Entity('products')
 export class Product {
-  @PrimaryColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn('increment')
+  id: number;
 
-  @Column({ type: 'uuid', name: 'store_id' })
-  storeId: string;
+  @Column({ type: 'int', name: 'store_id' })
+  storeId: number;
 
   @Column({ type: 'varchar', length: 255 })
   name: string;
@@ -71,8 +71,8 @@ export class Product {
   @Column({ type: 'varchar', length: 500, name: 'imagepath', nullable: true })
   imagePath: string;
 
-  @Column({ type: 'uuid', name: 'supplier_id', nullable: true })
-  supplierId: string | null;
+  @Column({ type: 'int', name: 'supplier_id', nullable: true })
+  supplierId: number | null;
 
   @Column({ type: 'varchar', length: 50, default: 'unit' })
   unit: string;
@@ -89,14 +89,14 @@ export class Product {
 
   @UpdateDateColumn({
     type: 'timestamp',
-    name: 'updatedat',
+    name: 'updated_at',
     default: () => 'CURRENT_TIMESTAMP',
   })
-  updatedAt: Date;
+  Updated_At: Date;
 
   @Column({
     type: 'boolean',
-    name: 'isdeleted',
+    name: 'is_deleted',
     default: false,
   })
   isDeleted: boolean;
@@ -120,10 +120,5 @@ export class Product {
 
   @OneToMany(() => InvoiceItem, (item) => item.product)
   invoiceItems: InvoiceItem[];
-
-  constructor() {
-    if (!this.id) {
-      this.id = uuidv4();
-    }
-  }
+ 
 }

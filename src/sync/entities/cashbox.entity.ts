@@ -64,11 +64,11 @@ export type CashboxType = 'revenue' | 'expense';
 @Check(`"type" IN ('revenue','expense')`)
 export class Cashbox {
   // @PrimaryGeneratedColumn('uuid')
-  @PrimaryColumn('uuid')
-  id: string; // UUID تلقائيًا :contentReference[oaicite:1]{index=1}
+  @PrimaryGeneratedColumn('increment')
+  id: number;
 
-  @Column({ name: 'store_id', type: 'uuid' })
-  storeId: string;
+  @Column({ name: 'store_id', type: 'int' })
+  storeId: number;
 
   @Column({ type: 'text' })
   type: CashboxType; // revenue / expense
@@ -87,7 +87,7 @@ export class Cashbox {
   createdAt: Date;
 
   @UpdateDateColumn({ name: 'updated_at', type: 'timestamptz' })
-  updatedAt: Date;
+  Updated_At: Date;
 
   @Column({ name: 'is_deleted', type: 'boolean', default: false })
   isDeleted: boolean;

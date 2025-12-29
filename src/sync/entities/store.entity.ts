@@ -16,8 +16,8 @@ import { DeviceSyncStateEntity } from './device-sync-state.entity';
 export class Store {
   // @PrimaryColumn({ type: 'varchar', length: 50 })
   // @PrimaryGeneratedColumn('uuid')
-  @PrimaryColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn('increment')
+  id: number;
 
   @Column({ type: 'varchar', length: 255 })
   name: string;
@@ -34,11 +34,11 @@ export class Store {
   @Column({ type: 'varchar', length: 255, nullable: true })
   logo: string | null;
 
-  @Column({ type: 'boolean', default: false })
+  @Column({ name :'is_deleted', type: 'boolean', default: false })
   isDeleted: boolean;
 
-  @Column({ type: 'timestamp' })
-  updatedAt: Date;
+  @Column({ name : 'updated_at',type: 'timestamp' })
+  Updated_At: Date;
   
   @OneToMany(() => CustomerTransaction, (t) => t.store)
   customerTransactions: CustomerTransaction[];  

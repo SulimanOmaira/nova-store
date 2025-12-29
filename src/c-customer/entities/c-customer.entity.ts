@@ -50,7 +50,7 @@ export class Customer {
   @Column({ type: 'bigint', nullable: true }) Created_By?: string;
   @Column({ type: 'timestamp', nullable: true }) Created_At?: Date;
   @Column({ type: 'bigint', nullable: true }) Updated_By?: string;
-  @Column({ type: 'timestamp', nullable: true }) Updated_At?: Date;
+  @Column({ name : 'updated_at',type: 'timestamp', nullable: true }) Updated_At?: Date;
   @Column({ type: 'boolean', default: false }) isDeleted: boolean;
   
   @Column({ type: 'uuid', name: 'store_id' })

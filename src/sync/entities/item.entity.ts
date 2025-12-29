@@ -15,14 +15,14 @@ export class ItemEntity {
   @Column({ type: 'varchar', length: 255, nullable: true })
   icon: string | null;
 
-  @Column({ type: 'boolean', default: false })
+  @Column({ name : 'is_deleted', type: 'boolean', default: false })
   isDeleted: boolean;
 
-  @Column({ type: 'timestamp' })
-  updatedAt: Date;
+  @Column({ name : 'updated_at' , type: 'timestamp' })
+  Updated_At: Date;
 
-  @Column({ type: 'uuid', name: 'store_id' })
-  storeId: string;
+  @Column({ type: 'int', name: 'store_id' })
+  storeId: number;
 
   // @ManyToOne(() => Store, (s) => s.items, { onDelete: 'CASCADE' })
   // @JoinColumn({ name: 'store_id' })

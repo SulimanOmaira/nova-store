@@ -10,8 +10,8 @@ import {
   JoinColumn,
   OneToMany,
   Index,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
-import { v4 as uuidv4 } from 'uuid';
 import { InvoiceItem } from './invoice-item.entity';
 import { Store } from './store.entity';
 import { Supplier } from './supplier.entity';
@@ -29,11 +29,11 @@ export enum InvoiceType {
 @Index(['storeId', 'date'])
 @Index(['storeId', 'type', 'isDeleted'])
 export class Invoice {
-  @PrimaryColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn('increment')
+  id: number;
 
-  @Column({ type: 'uuid', name: 'store_id' })
-  storeId: string;
+  @Column({ type: 'int', name: 'store_id' })
+  storeId: number;
 
   @Column({ 
     type: 'varchar', 
@@ -52,8 +52,8 @@ export class Invoice {
   @Column({ type: 'bigint', name: 'customer_id', nullable: true })
   customerId: string | null;
 
-  @Column({ type: 'uuid', name: 'supplier_id', nullable: true })
-  supplierId: string | null;
+  @Column({ type: 'int', name: 'supplier_id', nullable: true })
+  supplierId: number | null;
 
   @Column({
     type: 'decimal',
@@ -117,14 +117,14 @@ export class Invoice {
 
   @UpdateDateColumn({
     type: 'timestamp',
-    name: 'updatedat',
+    name: 'updated_at',
     default: () => 'CURRENT_TIMESTAMP',
   })
-  updatedAt: Date;
+  Updated_At: Date;
 
   @Column({
     type: 'boolean',
-    name: 'isdeleted',
+    name: 'is_deleted',
     default: false,
   })
   isDeleted: boolean;
@@ -178,10 +178,4 @@ customerTransactions: CustomerTransaction[];
 
   @OneToMany(() => SupplierTransaction, (t) => t.invoice)
   supplierTransactions: SupplierTransaction[];
-
-  constructor() {
-    if (!this.id) {
-      this.id = uuidv4();
-    }
-  }
 }

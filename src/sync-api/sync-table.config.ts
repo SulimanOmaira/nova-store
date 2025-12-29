@@ -16,9 +16,9 @@ export const SYNC_TABLES: SyncTableConfig[] = [
     table: 'stores',
     pk: 'id',
     storeCol: 'id',            // stores نفسه PK هو store id
-    updatedCol: 'updatedat',   // عندك updatedAt في entity لكن DB column اسمها updatedAt؟ أنت سميتها "updatedAt"
+    updatedCol: 'updated_at',   // عندك updatedAt في entity لكن DB column اسمها updatedAt؟ أنت سميتها "updatedAt"
     // إذا DB عندك "updatedAt" اكتبها هنا، إذا "updatedat" اكتبها كما هي
-    columns: ['name', 'address', 'status', 'logo', 'isdeleted', 'updatedat'],
+    columns: ['name', 'address', 'status', 'logo', 'is_deleted', 'updated_at'],
   },
 
   {
@@ -26,12 +26,12 @@ export const SYNC_TABLES: SyncTableConfig[] = [
     table: 'products',
     pk: 'id',
     storeCol: 'store_id',
-    updatedCol: 'updatedat',
-    deletedCol: 'isdeleted',
+    updatedCol: 'updated_at',
+    deletedCol: 'is_deleted',
     columns: [
       'store_id','name','category','quantity','minquantity','buyprice','sellprice',
-      'notes','imagepath','supplier_id','unit','barcode','createdat','updatedat',
-      'isdeleted','dirty',
+      'notes','imagepath','supplier_id','unit','barcode','createdat','updated_at',
+      'is_deleted','dirty',
     ],
   },
 
@@ -40,13 +40,13 @@ export const SYNC_TABLES: SyncTableConfig[] = [
     table: 'c_customer',
     pk: 'Id',
     storeCol: 'store_id',
-    updatedCol: 'Updated_At',      // مطابق لكودك في Customer
-    deletedCol: 'isDeleted',
+    updatedCol: 'updated_at',      // مطابق لكودك في Customer
+    deletedCol: 'is_deleted',
     columns: [
       'Status_Id','City_Id','Lang_Id',
       'F_Name','M_Name','L_Name','Username','Adress','Phone_Number','Password',
-      'Image_Base64','Rem','Created_By','Created_At','Updated_By','Updated_At',
-      'isDeleted','store_id',
+      'Image_Base64','Rem','Created_By','Created_At','Updated_By','updated_at',
+      'is_deleted','store_id',
     ],
   },
 
@@ -69,7 +69,7 @@ export const SYNC_TABLES: SyncTableConfig[] = [
     table: 'invoice_items',
     pk: 'id',
     storeCol: 'invoice_id', // لا يوجد store_id هنا، لكننا سنفلتره عبر join عند pull (في service)
-    updatedCol: 'id',       // ليس له updatedAt عندك (مشكلة شائعة)
+    updatedCol: 'updated_at',       // ليس له updatedAt عندك (مشكلة شائعة)
     deletedCol: 'is_deleted',
     columns: [
       'invoice_id','product_id','product_name','quantity','price','total','is_deleted','dirty',
@@ -81,11 +81,11 @@ export const SYNC_TABLES: SyncTableConfig[] = [
     table: 'customer_transactions',
     pk: 'id',
     storeCol: 'store_id',
-    updatedCol: 'updatedat',
-    deletedCol: 'isdeleted',
+    updatedCol: 'updated_at',
+    deletedCol: 'is_deleted',
     columns: [
       'store_id','customer_id','invoice_id','amount','type','note','date',
-      'createdat','updatedat','isdeleted','dirty',
+      'createdat','updated_at','is_deleted','dirty',
     ],
   },
 
@@ -139,9 +139,9 @@ export const SYNC_TABLES: SyncTableConfig[] = [
     table: 'items',
     pk: 'id',
     storeCol: 'store_id',
-    updatedCol: 'updatedat', // عندك updatedAt (بدون mapping) — عدله حسب DB
-    deletedCol: 'isDeleted',
-    columns: ['route','title','icon','isDeleted','updatedAt','store_id'],
+    updatedCol: 'updated_at', // عندك updatedAt (بدون mapping) — عدله حسب DB
+    deletedCol: 'is_deleted',
+    columns: ['route','title','icon','is_deleted','updated_at','store_id'],
   },
 
   {
@@ -149,9 +149,9 @@ export const SYNC_TABLES: SyncTableConfig[] = [
     table: 'orders',
     pk: 'id',
     storeCol: 'store_id',
-    updatedCol: 'updatedat',
-    deletedCol: 'isDeleted',
-    columns: ['customer','status','total','date','isDeleted','updatedAt','store_id','customer_id'],
+    updatedCol: 'updated_at',
+    deletedCol: 'is_deleted',
+    columns: ['customer','status','total','date','is_deleted','updated_at','store_id','customer_id'],
   },
 
   {

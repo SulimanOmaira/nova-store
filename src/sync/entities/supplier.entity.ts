@@ -7,6 +7,7 @@ import {
   BeforeInsert,
   BeforeUpdate,
   OneToMany,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Invoice } from './invoice.entity';
 import { Product } from './product.entity';
@@ -14,11 +15,10 @@ import { SupplierTransaction } from './supplier-transaction.entity';
 
 @Entity('suppliers')
 export class Supplier {
-  @PrimaryColumn('uuid')
-  id: string;
-
-  @Column({ type: 'uuid', name: 'store_id' })
-  storeId: string;
+  @PrimaryGeneratedColumn('increment')
+  id: number
+  @Column({ type: 'int', name: 'store_id' })
+  storeId: number;
 
   @Column({ type: 'varchar', length: 255 })
   name: string;
@@ -39,7 +39,7 @@ export class Supplier {
   createdAt: Date;
 
   @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
-  updatedAt: Date;
+  Updated_At: Date;
 
   @Column({ name: 'is_deleted', type: 'boolean', default: false })
   isDeleted: boolean;

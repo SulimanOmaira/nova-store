@@ -15,11 +15,11 @@ import { Store } from './store.entity';
 @Index(['timestamp'])
 export class LogEntity {
   // @PrimaryGeneratedColumn('uuid')
-  @PrimaryColumn('uuid')
-  id: string; // UUID PK :contentReference[oaicite:1]{index=1}
+  @PrimaryGeneratedColumn('increment')
+  id: number; // UUID PK :contentReference[oaicite:1]{index=1}
 
-  @Column({ name: 'store_id', type: 'uuid' })
-  storeId: string;
+  @Column({ name: 'store_id', type: 'int' })
+  storeId: number;
 
   @Column({ type: 'text' })
   action: string;
@@ -30,7 +30,7 @@ export class LogEntity {
 
   // في SQLite عندك updatedAt نص. هنا نخليه UpdateDateColumn تلقائيًا.
   @UpdateDateColumn({ name: 'updated_at', type: 'timestamptz' })
-  updatedAt: Date;
+  Updated_At: Date;
 
   @Column({ name: 'is_deleted', type: 'boolean', default: false })
   isDeleted: boolean;
