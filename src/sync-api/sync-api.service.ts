@@ -483,7 +483,7 @@ export class SyncApiService {
           `
           SELECT *
           FROM ${this.q(t.table)}
-          WHERE ${this.q(t.storeCol)} = $1 AND ${this.q(t.pk)} = $2
+          WHERE ${this.q(t.storeCol)} = $1 AND store_id = $2
           LIMIT 1
           `,
           [storeId, deviceId],
