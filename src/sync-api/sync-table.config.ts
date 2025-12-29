@@ -215,17 +215,17 @@ export const SYNC_TABLES: SyncTableConfig[] = [
     ],
   },
 
-  {
-    key: 'invoice_items',
-    table: 'invoice_items',
-    pk: 'id',
-    storeCol: 'invoice_id', // ليس store، لكن نحتاجه كقيمة
-    updatedCol: 'updated_at',
-    deletedCol: 'is_deleted',
-    columns: [
-      'invoice_id', 'product_id', 'product_name', 'quantity', 'price', 'total', 'is_deleted', 'dirty',
-    ],
-  },
+  // {
+  //   key: 'invoice_items',
+  //   table: 'invoice_items',
+  //   pk: 'id',
+  //   storeCol: 'invoice_id', // ليس store، لكن نحتاجه كقيمة
+  //   updatedCol: 'updated_at',
+  //   deletedCol: 'is_deleted',
+  //   columns: [
+  //     'invoice_id', 'product_id', 'product_name', 'quantity', 'price', 'total', 'is_deleted', 'dirty',
+  //   ],
+  // },
 
   {
     key: 'customer_transactions',
