@@ -921,24 +921,24 @@ export class SyncApiService {
     const data: Record<string, any[]> = {};
 
     // جداول عادية: استثنِ stores و invoice_items (نعالجهم خاص)
-    const normalTables = SYNC_TABLES.filter(
-      (t) => t.key !== 'invoice_items' && t.key !== 'stores',
-    );
+    // const normalTables = SYNC_TABLES.filter(
+    //   (t) => t.key !== 'invoice_items' && t.key !== 'stores',
+    // );
 
-    for (const t of normalTables) {
-      // ✅ device_sync_state: رجّع سطر الجهاز نفسه
-      if (t.key === 'device_sync_state') {
-        data[t.key] = await this.ds.query(
-          `
-          SELECT *
-          FROM ${this.q(t.table)}
-          WHERE ${this.q(t.storeCol)} = $1 AND "deviceId" = $2
-          LIMIT 1
-          `,
-          [storeId, deviceId],
-        );
-        continue;
-      }
+    // for (const t of normalTables) {
+    //   // ✅ device_sync_state: رجّع سطر الجهاز نفسه
+    //   if (t.key === 'device_sync_state') {
+    //     data[t.key] = await this.ds.query(
+    //       `
+    //       SELECT *
+    //       FROM ${this.q(t.table)}
+    //       WHERE ${this.q(t.storeCol)} = $1 AND "deviceId" = $2
+    //       LIMIT 1
+    //       `,
+    //       [storeId, deviceId],
+    //     );
+    //     continue;
+    //   }
 
       data[t.key] = await this.ds.query(
         `
@@ -1034,11 +1034,11 @@ export class SyncApiService {
           continue;
         }
 
-        if (key === 'invoice_items') {
-          // ✅ بدون تحقق invoices (لأنه غير موجود عندك في sync)
-          accepted[key] = await this.upsertInvoiceItemsNoInvoiceCheck(trx, sanitized);
-          continue;
-        }
+        // if (key === 'invoice_items') {
+        //   // ✅ بدون تحقق invoices (لأنه غير موجود عندك في sync)
+        //   accepted[key] = await this.upsertInvoiceItemsNoInvoiceCheck(trx, sanitized);
+        //   continue;
+        // }
 
         // باقي الجداول
         const ids = await this.upsertGeneric(trx, cfg, sanitized, {
@@ -1145,49 +1145,49 @@ export class SyncApiService {
   }
 
   // ✅ invoice_items بدون invoices
-  private async upsertInvoiceItemsNoInvoiceCheck(
-    trx: DataSource['manager'],
-    rows: any[],
-  ): Promise<string[]> {
-    const ids: string[] = [];
+  // private async upsertInvoiceItemsNoInvoiceCheck(
+  //   trx: DataSource['manager'],
+  //   rows: any[],
+  // ): Promise<string[]> {
+  //   const ids: string[] = [];
 
-    for (const r of rows) {
-      const id = r?.id;
-      if (!id) continue;
+  //   for (const r of rows) {
+  //     const id = r?.id;
+  //     if (!id) continue;
 
-      const sql = `
-        INSERT INTO "invoice_items"
-          ("id","invoice_id","product_id","product_name","quantity","price","total","is_deleted","dirty")
-        VALUES
-          ($1,$2,$3,$4,$5,$6,$7,$8,$9)
-        ON CONFLICT ("id") DO UPDATE SET
-          "invoice_id"=EXCLUDED."invoice_id",
-          "product_id"=EXCLUDED."product_id",
-          "product_name"=EXCLUDED."product_name",
-          "quantity"=EXCLUDED."quantity",
-          "price"=EXCLUDED."price",
-          "total"=EXCLUDED."total",
-          "is_deleted"=EXCLUDED."is_deleted",
-          "dirty"=EXCLUDED."dirty"
-      `;
+  //     const sql = `
+  //       INSERT INTO "invoice_items"
+  //         ("id","invoice_id","product_id","product_name","quantity","price","total","is_deleted","dirty")
+  //       VALUES
+  //         ($1,$2,$3,$4,$5,$6,$7,$8,$9)
+  //       ON CONFLICT ("id") DO UPDATE SET
+  //         "invoice_id"=EXCLUDED."invoice_id",
+  //         "product_id"=EXCLUDED."product_id",
+  //         "product_name"=EXCLUDED."product_name",
+  //         "quantity"=EXCLUDED."quantity",
+  //         "price"=EXCLUDED."price",
+  //         "total"=EXCLUDED."total",
+  //         "is_deleted"=EXCLUDED."is_deleted",
+  //         "dirty"=EXCLUDED."dirty"
+  //     `;
 
-      await trx.query(sql, [
-        r.id,
-        r.invoice_id,
-        r.product_id,
-        r.product_name,
-        r.quantity,
-        r.price,
-        r.total,
-        r.is_deleted ?? false,
-        r.dirty ?? false,
-      ]);
+  //     await trx.query(sql, [
+  //       r.id,
+  //       r.invoice_id,
+  //       r.product_id,
+  //       r.product_name,
+  //       r.quantity,
+  //       r.price,
+  //       r.total,
+  //       r.is_deleted ?? false,
+  //       r.dirty ?? false,
+  //     ]);
 
-      ids.push(String(id));
-    }
+  //     ids.push(String(id));
+  //   }
 
-    return ids;
-  }
+  //   return ids;
+  // }
 
   private async upsertDeviceSyncState(storeId: string, deviceId: string, lastSyncAt: Date) {
     await this.ds.query(
