@@ -26,11 +26,11 @@ export const SYNC_TABLES: SyncTableConfig[] = [
     table: 'products',
     pk: 'id',
     storeCol: 'store_id',
-    updatedCol: 'updatedAt',
+    updatedCol: 'updatedat',
     deletedCol: 'isDeleted',
     columns: [
       'store_id','name','category','quantity','minquantity','buyprice','sellprice',
-      'notes','imagepath','supplier_id','unit','barcode','createdat','updatedAt',
+      'notes','imagepath','supplier_id','unit','barcode','createdat','updatedat',
       'isDeleted','dirty',
     ],
   },
