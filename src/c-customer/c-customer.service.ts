@@ -3,7 +3,7 @@ import { CreateCCustomerDto } from './dto/create-c-customer.dto';
 import { UpdateCCustomerDto } from './dto/update-c-customer.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Customer } from './entities/c-customer.entity';
+import { C_Customer } from './entities/c-customer.entity';
 import * as bcrypt from 'bcrypt';
 
 
@@ -11,8 +11,8 @@ import * as bcrypt from 'bcrypt';
 export class CCustomerService {
 
     constructor(
-    @InjectRepository(Customer)
-    private readonly customers: Repository<Customer>,
+    @InjectRepository(C_Customer)
+    private readonly customers: Repository<C_Customer>,
   ) {}
 
   async findAll() {

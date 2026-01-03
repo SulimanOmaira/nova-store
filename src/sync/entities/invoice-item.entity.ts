@@ -7,6 +7,7 @@ import {
   ManyToOne,
   PrimaryColumn,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { Invoice } from './invoice.entity';
 import { Product } from './product.entity';
@@ -47,6 +48,14 @@ export class InvoiceItem {
 
   @Column({ type: 'boolean', default: false })
   dirty: boolean;
+
+  @UpdateDateColumn({
+    type: 'timestamp',
+    name: 'updated_at',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  Updated_At: Date;
+
 
   // علاقات (اختيارية)
   @ManyToOne(() => Invoice, (invoice) => invoice.items, { onDelete: 'CASCADE' })

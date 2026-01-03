@@ -5,8 +5,13 @@ import { Store } from './store.entity';
 @Index(['storeId', 'deviceId'], { unique: true })
 export class DeviceSyncStateEntity {
 
-  @PrimaryGeneratedColumn('increment')
-  deviceId: string;
+  // @PrimaryGeneratedColumn('increment')
+  // deviceId: string;
+    @PrimaryGeneratedColumn('increment')
+  id: number; // ✅ PK رقمي
+
+  @Column({ type: 'text', name: 'deviceId' })
+  deviceId: string; // ✅ معرف الجهاز النصي
 
   @Column({ type: 'int', name: 'store_id' })
   storeId: number;

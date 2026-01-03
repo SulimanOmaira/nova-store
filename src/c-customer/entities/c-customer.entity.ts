@@ -11,7 +11,7 @@ import {
 
 
 @Entity('c_customer')
-export class Customer {
+export class C_Customer {
   @PrimaryGeneratedColumn('increment', { type: 'bigint' })
   Id: string;
 

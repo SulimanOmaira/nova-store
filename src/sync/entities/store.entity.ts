@@ -3,7 +3,7 @@ import { Entity, PrimaryColumn, Column, PrimaryGeneratedColumn, OneToMany } from
 import { CustomerTransaction } from './customer-transaction.entity';
 import { Invoice } from './invoice.entity';
 import { Product } from './product.entity';
-import { Customer } from 'src/c-customer/entities/c-customer.entity';
+import { C_Customer } from 'src/c-customer/entities/c-customer.entity';
 import { StockHistory } from './stock-history.entity';
 import { Cashbox } from './cashbox.entity';
 import { LogEntity } from './log.entity';
@@ -37,7 +37,7 @@ export class Store {
   @Column({ name :'is_deleted', type: 'boolean', default: false })
   isDeleted: boolean;
 
-  @Column({ name : 'updated_at',type: 'timestamp' })
+  @Column({ name : 'updated_at',type: 'timestamp', default: () => 'CURRENT_TIMESTAMP',})
   Updated_At: Date;
   
   @OneToMany(() => CustomerTransaction, (t) => t.store)
@@ -49,8 +49,8 @@ export class Store {
     @OneToMany(() => Product, (p) => p.store)
   products: Product[];
   
-  @OneToMany(() => Customer, (c) => c.store)
-  customers: Customer[];
+  @OneToMany(() => C_Customer, (c) => c.store)
+  customers: C_Customer[];
 
   @OneToMany(() => StockHistory, (h) => h.store)
   stockHistories: StockHistory[];

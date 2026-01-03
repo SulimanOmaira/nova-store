@@ -35,11 +35,12 @@ export class SyncApiService {
           `
           SELECT *
           FROM ${this.q(t.table)}
-          WHERE ${this.q(t.storeCol)} = $1 AND ${this.q(t.pk)} = $2
+          WHERE ${this.q(t.storeCol)} = $1 AND store_id = $2
           LIMIT 1
           `,
           [storeId, deviceId],
         );
+        // ${this.q(t.pk)}
         continue;
       }
 
@@ -66,17 +67,29 @@ export class SyncApiService {
 
     // 3) invoice_items: نرجع items الخاصة بفواتير هذا المتجر التي تغيّرت بعد since
     // لأن invoice_items ما عنده store_id، نفلتر عبر invoices.updatedat
-    data['invoice_items'] = await this.ds.query(
+  //   data['invoice_items'] = await this.ds.query(
+  //     AND i.updated_at  > $2
+  //     ORDER BY i.updated_at  ASC
+  //     LIMIT $3
+  //     `,
+  //     [storeId, sinceDate, limit],
+  //   );
+  // `
+  //     SELECT ii.*
+  //     FROM invoice_items ii
+  //     JOIN invoices i ON i.id = ii.invoice_id
+  //     WHERE i.store_id = $1
+      
+      data['invoice_items'] = await this.ds.query(
       `
-      SELECT ii.*
-      FROM invoice_items ii
-      JOIN invoices i ON i.id = ii.invoice_id
-      WHERE i.store_id = $1
-        AND i.updatedat > $2
-      ORDER BY i.updatedat ASC
-      LIMIT $3
+      SELECT *
+      FROM ${this.q('invoice_items')}
+      WHERE ${this.q('updated_at')} IS NOT NULL
+        AND ${this.q('updated_at')} > $1
+      ORDER BY ${this.q('updated_at')} ASC
+      LIMIT $2
       `,
-      [storeId, sinceDate, limit],
+      [sinceDate, limit],
     );
 
     // حدّث checkpoint للجهاز بعد pull

@@ -1,5 +1,5 @@
 // src/invoices/entities/invoice.entity.ts
-import { Customer } from 'src/c-customer/entities/c-customer.entity';
+import { C_Customer } from 'src/c-customer/entities/c-customer.entity';
 import {
   Entity,
   PrimaryColumn,
@@ -145,9 +145,9 @@ export class Invoice {
   // @ManyToOne(() => Customer, (customer) => customer.invoices, {
   //   onDelete: 'SET NULL',
   // })
-  @ManyToOne(() => Customer, (c) => c.invoices, { onDelete: 'SET NULL' })
+  @ManyToOne(() => C_Customer, (c) => c.invoices, { onDelete: 'SET NULL' })
   @JoinColumn({ name: 'customer_id' })
-  customer: Customer | null;
+  customer: C_Customer | null;
 
   // @JoinColumn({ name: 'customer_id' })
   // customer: Customer;

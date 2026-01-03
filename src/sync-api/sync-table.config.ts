@@ -35,20 +35,39 @@ export const SYNC_TABLES: SyncTableConfig[] = [
     ],
   },
 
+  // {
+  //   key: 'customers',
+  //   table: 'c_customer',
+  //   pk: 'Id',
+  //   storeCol: 'store_id',
+  //   updatedCol: 'updated_at',      // مطابق لكودك في Customer
+  //   deletedCol: 'is_deleted',
+  //   columns: [
+  //     'Status_Id','City_Id','Lang_Id',
+  //     'F_Name','M_Name','L_Name','Username','Adress','Phone_Number','Password',
+  //     'Image_Base64','Rem','Created_By','Created_At','Updated_By','updated_at',
+  //     'is_deleted','store_id',
+  //   ],
+  // },
   {
-    key: 'customers',
-    table: 'c_customer',
-    pk: 'Id',
-    storeCol: 'store_id',
-    updatedCol: 'updated_at',      // مطابق لكودك في Customer
-    deletedCol: 'is_deleted',
-    columns: [
-      'Status_Id','City_Id','Lang_Id',
-      'F_Name','M_Name','L_Name','Username','Adress','Phone_Number','Password',
-      'Image_Base64','Rem','Created_By','Created_At','Updated_By','updated_at',
-      'is_deleted','store_id',
-    ],
-  },
+  key: 'customers',
+  table: 'customers',
+  pk: 'id',
+  storeCol: 'store_id',
+  updatedCol: 'updated_at',
+  deletedCol: 'is_deleted',
+  columns: [
+    'store_id',
+    'name',
+    'phone',
+    'address',
+    'notes',
+    'updated_at',
+    'is_deleted',
+    'dirty',
+  ],
+},
+
 
   // {
   //   key: 'invoices',

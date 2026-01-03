@@ -11,7 +11,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Store } from './store.entity';
-import { Customer } from 'src/c-customer/entities/c-customer.entity';
+import { C_Customer } from 'src/c-customer/entities/c-customer.entity';
 import { Invoice } from './invoice.entity';
 
 
@@ -99,11 +99,11 @@ export class CustomerTransaction {
   @JoinColumn({ name: 'store_id' })
   store: Store;
 
-  @ManyToOne(() => Customer, (customer) => customer.transactions, {
+  @ManyToOne(() => C_Customer, (customer) => customer.transactions, {
     onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'customer_id' })
-  customer: Customer;
+  customer: C_Customer;
 
   // @ManyToOne(() => Invoice, (invoice) => invoice.customerTransactions, {
   //   onDelete: 'SET NULL',

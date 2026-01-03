@@ -4,7 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 import { DataSource, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AUser } from 'src/a-user/entities/a-user.entity';
-import { Customer } from 'src/c-customer/entities/c-customer.entity';
+import { C_Customer } from 'src/c-customer/entities/c-customer.entity';
 import { ASession } from 'src/a-session/entities/a-session.entity';
 import { CSession } from 'src/c-session/entities/c-session.entity';
 import { CreateAUserDto } from 'src/a-user/dto/create-a-user.dto';
@@ -19,7 +19,7 @@ export class AuthService {
     private jwt: JwtService,
     private readonly ds: DataSource, // ✅
     @InjectRepository(AUser) private aUsers: Repository<AUser>,
-    @InjectRepository(Customer) private customers: Repository<Customer>,
+    @InjectRepository(C_Customer) private customers: Repository<C_Customer>,
     @InjectRepository(ASession) private aSessions: Repository<ASession>,
     @InjectRepository(CSession) private cSessions: Repository<CSession>,
   ) {}
@@ -109,10 +109,10 @@ async registerCustomer(dto: CreateCCustomerDto, userID: string) {
 
   return this.ds.transaction(async (trx) => {
     // 2) أنشئ متجر جديد
-    const storeId = randomUUID();
+    // const storeId = randomUUID();
 
     const store = trx.create(Store, {
-      id: storeId,
+      // id: storeId,
       name: dto.StoreName ?? `${dto.F_Name} Store`, // إذا ما عندك StoreName بالـ DTO
       address: dto.Adress ?? null,
       status: 'active',
@@ -121,10 +121,12 @@ async registerCustomer(dto: CreateCCustomerDto, userID: string) {
       updatedAt: new Date(),
     });
 
-    await trx.save(Store, store);
+    const savedStore  = await trx.save(Store, store);
+    const storeId = savedStore.id; // رقم int
+
 
     // 3) أنشئ Customer مربوط بالمتجر الجديد
-    const user = trx.create(Customer, {
+    const user = trx.create(C_Customer, {
       Username: dto.UserName,
       Password: hash,
       F_Name: dto.F_Name,
@@ -145,7 +147,7 @@ async registerCustomer(dto: CreateCCustomerDto, userID: string) {
       isDeleted: false,
     });
 
-    await trx.save(Customer, user);
+    await trx.save(C_Customer, user);
 
     return {
       data: {
@@ -158,7 +160,7 @@ async registerCustomer(dto: CreateCCustomerDto, userID: string) {
   });
 }
 
-  async loginCustomer(user: Customer, deviceToken?: string) {
+  async loginCustomer(user: C_Customer, deviceToken?: string) {
     const access = await this.issueAccessToken(user.Id, 'customer');
     await this.cSessions.save({
       User_Id: user.Id as any,
