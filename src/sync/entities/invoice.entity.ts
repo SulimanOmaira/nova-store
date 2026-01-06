@@ -17,6 +17,7 @@ import { Store } from './store.entity';
 import { Supplier } from './supplier.entity';
 import { CustomerTransaction } from './customer-transaction.entity';
 import { SupplierTransaction } from './supplier-transaction.entity';
+import { Customer } from './customer.entity';
 
 export enum InvoiceType {
   SALE = 'sale',
@@ -145,9 +146,9 @@ export class Invoice {
   // @ManyToOne(() => Customer, (customer) => customer.invoices, {
   //   onDelete: 'SET NULL',
   // })
-  @ManyToOne(() => C_Customer, (c) => c.invoices, { onDelete: 'SET NULL' })
+  @ManyToOne(() => Customer, (c) => c.invoices, { onDelete: 'SET NULL' })
   @JoinColumn({ name: 'customer_id' })
-  customer: C_Customer | null;
+  customer: Customer | null;
 
   // @JoinColumn({ name: 'customer_id' })
   // customer: Customer;

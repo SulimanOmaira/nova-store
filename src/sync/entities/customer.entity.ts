@@ -1,4 +1,6 @@
-import { Column, Entity, Index, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, Entity, Index, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { CustomerTransaction } from './customer-transaction.entity';
+import { Invoice } from './invoice.entity';
 
 @Entity('customers') // اسم الجدول lowercase
 @Index(['storeId'])
@@ -7,8 +9,8 @@ export class Customer {
   @PrimaryGeneratedColumn('increment', { type: 'bigint' })
   id: string;
 
-  @Column({ name: 'store_id', type: 'uuid' })
-  storeId: string;
+  @Column({ name: 'store_id', type: 'int' })
+  storeId: number;
 
   @Column({ type: 'text' })
   name: string;
@@ -30,4 +32,11 @@ export class Customer {
 
   @Column({ type: 'boolean', default: false })
   dirty: boolean;
+
+  
+@OneToMany(() => Invoice, (i) => i.customer)
+invoices: Invoice[];
+
+@OneToMany(() => CustomerTransaction, (t) => t.customer)
+transactions: CustomerTransaction[];
 }

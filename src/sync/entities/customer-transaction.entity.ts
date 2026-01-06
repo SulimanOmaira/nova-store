@@ -13,6 +13,7 @@ import {
 import { Store } from './store.entity';
 import { C_Customer } from 'src/c-customer/entities/c-customer.entity';
 import { Invoice } from './invoice.entity';
+import { Customer } from './customer.entity';
 
 
 export enum TransactionType {
@@ -99,11 +100,11 @@ export class CustomerTransaction {
   @JoinColumn({ name: 'store_id' })
   store: Store;
 
-  @ManyToOne(() => C_Customer, (customer) => customer.transactions, {
+  @ManyToOne(() => Customer, (customer) => customer.transactions, {
     onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'customer_id' })
-  customer: C_Customer;
+  customer: Customer;
 
   // @ManyToOne(() => Invoice, (invoice) => invoice.customerTransactions, {
   //   onDelete: 'SET NULL',

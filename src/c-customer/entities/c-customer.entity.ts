@@ -13,7 +13,7 @@ import {
 @Entity('c_customer')
 export class C_Customer {
   @PrimaryGeneratedColumn('increment', { type: 'bigint' })
-  Id: string;
+  Id: Number;
 
   @ManyToOne(() => ACodStatus, { nullable: true, onDelete: 'RESTRICT', onUpdate: 'RESTRICT' })
   @JoinColumn({ name: 'Status_Id', referencedColumnName: 'Id' })
@@ -53,8 +53,8 @@ export class C_Customer {
   @Column({ name : 'updated_at',type: 'timestamp', nullable: true }) Updated_At?: Date;
   @Column({ type: 'boolean', default: false }) isDeleted: boolean;
   
-  @Column({ type: 'uuid', name: 'store_id' })
-  storeId: string;
+  @Column({ type: 'int', name: 'store_id' })
+  storeId: number;
 
     @ManyToOne(() => Store, (store) => store.customers, {
     onDelete: 'RESTRICT',

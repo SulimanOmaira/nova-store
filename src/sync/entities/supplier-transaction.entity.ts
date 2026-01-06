@@ -64,10 +64,16 @@ export class SupplierTransaction {
   @Column({ type: 'boolean', default: false })
   dirty: boolean;
 
-  // علاقات (اختيارية)
-  @ManyToOne(() => Supplier, (s) => s.transactions, { onDelete: 'RESTRICT' })
+  // // علاقات (اختيارية)
+  // @ManyToOne(() => Supplier, (s) => s.transactions, { onDelete: 'RESTRICT' })
+  // @JoinColumn({ name: 'supplier_id'})
+  // supplier?: Supplier | null;
+@ManyToOne(() => Supplier, (s) => s.transactions, {
+  nullable: true,
+  onDelete: 'SET NULL',
+})
   @JoinColumn({ name: 'supplier_id' })
-  supplier?: Supplier;
+  supplier?: Supplier | null;
 
   // @ManyToOne(() => Invoice, (i) => i.supplierTransactions, { onDelete: 'SET NULL' })
   // @JoinColumn({ name: 'invoice_id' })

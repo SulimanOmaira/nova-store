@@ -21,6 +21,27 @@ export const SYNC_TABLES: SyncTableConfig[] = [
     columns: ['name', 'address', 'status', 'logo', 'is_deleted', 'updated_at'],
   },
 
+    {
+    key: 'suppliers',
+    table: 'suppliers',
+    pk: 'id',
+    storeCol: 'store_id',
+    updatedCol: 'updated_at',
+    deletedCol: 'is_deleted',
+    columns: [
+      'store_id',
+      'name',
+      'phone',
+      'address',
+      'notes',
+      'balance',
+      'created_at',
+      'updated_at',
+      'is_deleted',
+      'dirty',
+    ],
+  },
+
   {
     key: 'products',
     table: 'products',
@@ -82,6 +103,47 @@ export const SYNC_TABLES: SyncTableConfig[] = [
   //     'createdat','updatedat','isdeleted','dirty',
   //   ],
   // },
+
+//   {
+//   key: 'invoices',
+//   table: 'invoices',
+//   pk: 'id',
+//   storeCol: 'store_id',
+//   updatedCol: 'updated_at',     // أو 'updatedat' حسب DB عندك
+//   deletedCol: 'is_deleted',     // أو 'isdeleted' حسب DB
+//   columns: [
+//     'store_id',
+//     'invoicenumber',
+//     'type',
+//     'customer_id',
+//     'supplier_id',
+//     'subtotal',
+//     'discount',
+//     'tax',
+//     'total',
+//     'paid',
+//     'remaining',
+//     'date',
+//     'createdat',
+//     'updated_at',
+//     'is_deleted',
+//     'dirty',
+//   ],
+// },
+
+{
+  key: 'invoices',
+  table: 'invoices',
+  pk: 'id',
+  storeCol: 'store_id',
+  updatedCol: 'updated_at',
+  deletedCol: 'is_deleted',
+  columns: [
+    'store_id','invoicenumber','type','customer_id','supplier_id',
+    'subtotal','discount','tax','total','paid','remaining','date',
+    'createdat','updated_at','is_deleted','dirty',
+  ],
+},
 
   {
     key: 'invoice_items',
@@ -179,6 +241,6 @@ export const SYNC_TABLES: SyncTableConfig[] = [
     pk: 'deviceId',
     storeCol: 'store_id',
     updatedCol: 'lastSyncAt',
-    columns: ['deviceId','store_id','lastSyncAt'],
+    columns: ['store_id','lastSyncAt'],
   },
 ];

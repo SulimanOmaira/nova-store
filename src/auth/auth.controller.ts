@@ -1,4 +1,4 @@
-import { Controller, Post, UseGuards, Req, Body } from '@nestjs/common';
+import { Controller, Post, UseGuards, Req, Body, Delete, Get, Param, Patch, Query } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthGuard } from '@nestjs/passport';
 import { CreateAUserDto } from 'src/a-user/dto/create-a-user.dto';
@@ -7,6 +7,7 @@ import { JwtAuthGuard } from './jwt-auth.guard';
 import { RolesGuard } from './roles.guard';
 import { Roles } from './roles.decorator';
 import { Role } from './role.enum';
+import { UpdateCCustomerDto } from 'src/c-customer/dto/update-c-customer.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -40,4 +41,59 @@ export class AuthController {
     console.log(adminID);
     return this.auth.registerCustomer(dto, adminID);
   }
+
+   @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
+  @Get('customers')
+  listCustomers(
+    @Query('page') page?: string,
+    @Query('limit') limit?: string,
+    @Query('includeDeleted') includeDeleted?: string,
+  ) {
+    return this.auth.listCustomers({
+      page: page ? Number(page) : undefined,
+      limit: limit ? Number(limit) : undefined,
+      includeDeleted: includeDeleted === 'true',
+    });
+  }
+
+  // ✅ Get one customer
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
+  @Get('customers/:id')
+  getCustomer(@Param('id') id: string) {
+    return this.auth.getCustomer(Number(id));
+  }
+
+  // ✅ Update customer
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
+  @Patch('customers/:id')
+  updateCustomer(@Req() req, @Param('id') id: string, @Body() dto: UpdateCCustomerDto) {
+    const adminId = req.user.userId;
+    return this.auth.updateCustomer(Number(id), dto, adminId);
+  }
+
+  // ✅ Soft delete customer
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
+  @Delete('customers/:id')
+  deleteCustomer(@Req() req, @Param('id') id: string) {
+    const adminId = req.user.userId;
+    return this.auth.deleteCustomer(Number(id), adminId);
+  }
+
+  // ✅ Change customer password (endpoint منفصل)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
+  @Post('customers/:id/change-password')
+  changeCustomerPassword(
+    @Req() req,
+    @Param('id') id: string,
+    @Body('newPassword') newPassword: string,
+  ) {
+    const adminId = req.user.userId;
+    return this.auth.changeCustomerPassword(Number(id), newPassword, adminId);
+  }
+
 }

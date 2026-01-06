@@ -31,15 +31,26 @@ export class SyncApiService {
     for (const t of normalTables) {
       // device_sync_state نرجّعه فقط للجهاز نفسه
       if (t.key === 'device_sync_state') {
+        // data[t.key] = await this.ds.query(
+        //   `
+        //   SELECT *
+        //   FROM ${this.q(t.table)}
+        //   WHERE ${this.q(t.storeCol)} = $1 AND store_id = $2
+        //   LIMIT 1
+        //   `,
+        //   [storeId, deviceId],
+        // );
         data[t.key] = await this.ds.query(
-          `
-          SELECT *
-          FROM ${this.q(t.table)}
-          WHERE ${this.q(t.storeCol)} = $1 AND store_id = $2
-          LIMIT 1
-          `,
-          [storeId, deviceId],
-        );
+  `
+  SELECT *
+  FROM ${this.q(t.table)}
+  WHERE ${this.q('store_id')} = $1
+    AND ${this.q('deviceId')} = $2
+  LIMIT 1
+  `,
+  [Number(storeId), deviceId],
+);
+
         // ${this.q(t.pk)}
         continue;
       }
@@ -80,18 +91,31 @@ export class SyncApiService {
   //     JOIN invoices i ON i.id = ii.invoice_id
   //     WHERE i.store_id = $1
       
-      data['invoice_items'] = await this.ds.query(
-      `
-      SELECT *
-      FROM ${this.q('invoice_items')}
-      WHERE ${this.q('updated_at')} IS NOT NULL
-        AND ${this.q('updated_at')} > $1
-      ORDER BY ${this.q('updated_at')} ASC
-      LIMIT $2
-      `,
-      [sinceDate, limit],
-    );
+    //   data['invoice_items'] = await this.ds.query(
+    //   `
+    //   SELECT *
+    //   FROM ${this.q('invoice_items')}
+    //   WHERE ${this.q('updated_at')} IS NOT NULL
+    //     AND ${this.q('updated_at')} > $1
+    //   ORDER BY ${this.q('updated_at')} ASC
+    //   LIMIT $2
+    //   `,
+    //   [sinceDate, limit],
+    // );
 
+    data['invoice_items'] = await this.ds.query(
+  `
+  SELECT ii.*
+  FROM "invoice_items" ii
+  JOIN "invoices" i ON i.id = ii.invoice_id
+  WHERE i.store_id = $1
+    AND i.updated_at IS NOT NULL
+    AND i.updated_at > $2
+  ORDER BY i.updated_at ASC
+  LIMIT $3
+  `,
+  [Number(storeId), sinceDate, limit],
+);
     // حدّث checkpoint للجهاز بعد pull
     await this.upsertDeviceSyncState(storeId, deviceId, serverTime);
 
@@ -105,7 +129,14 @@ export class SyncApiService {
   // ---------- PUSH ----------
   async push(body: SyncPushBodyDto): Promise<SyncPushResult> {
     const { storeId, deviceId, changes } = body;
+const storeExists = await this.ds.query(
+  `SELECT 1 FROM stores WHERE id = $1 LIMIT 1`,
+  [storeId],
+);
 
+if (!storeExists.length) {
+  throw new BadRequestException(`Store ${storeId} does not exist`);
+}
     if (!storeId || !deviceId) throw new BadRequestException('storeId/deviceId required');
 
     const serverTime = new Date();
@@ -119,6 +150,7 @@ export class SyncApiService {
       const order = [
         'stores',
         'customers',
+        'suppliers',         
         'products',
         'invoices',
         'invoice_items',
@@ -129,7 +161,7 @@ export class SyncApiService {
         'logs',
         'items',
         'orders',
-        'device_sync_state',
+        // 'device_sync_state',
       ];
 
       for (const key of order) {
@@ -221,9 +253,15 @@ export class SyncApiService {
     for (const c of cfg.columns) out[c] = row?.[c];
 
     // enforce store_id for tenant isolation (except stores table)
-    if (cfg.table !== 'stores') {
-      out[cfg.storeCol] = storeId;
-    }
+    // if (cfg.table !== 'stores') {
+    //   out[cfg.storeCol] = storeId;
+    // }
+
+    // enforce store_id فقط للجداول اللي فعلاً عندها store_id
+const hasStoreId = cfg.storeCol === 'store_id' || cfg.storeCol === 'storeId';
+if (cfg.table !== 'stores' && hasStoreId) {
+  out[cfg.storeCol] = Number(storeId);
+}
 
     // ensure device id for device_sync_state
     if (cfg.table === 'device_sync_state') {
@@ -234,6 +272,8 @@ export class SyncApiService {
     return out;
   }
 
+  /**if (cfg.table !== 'stores') {
+ */
   /**
    * Upsert مع شرط LWW:
    * - يحاول تحديث فقط إذا incoming.updatedCol > existing.updatedCol
@@ -387,12 +427,20 @@ export class SyncApiService {
     if (!id) continue;
 
     // ✅ تأكد أن invoice_id تابع لنفس المتجر
-    const ok = await trx.query(
-      `SELECT 1 FROM "invoices" WHERE "id" = $1 AND "store_id" = $2 LIMIT 1`,
-      [r.invoice_id, storeId],
+//     const ok = await trx.query(
+//       `SELECT 1 FROM "invoices" WHERE "id" = $1 AND "store_id" = $2 LIMIT 1`,
+//       // [r.invoice_id, storeId],
+
+// [r.invoice_id, Number(storeId)]
+const ok = await trx.query(
+  `SELECT 1 FROM "invoices" WHERE "id" = $1 AND "store_id" = $2 LIMIT 1`,
+  [Number(r.invoice_id), Number(storeId)],
     );
     if (!ok.length) {
-      continue; // أو سجلها ضمن rejected إذا بدك
+      // continue; // أو سجلها ضمن rejected إذا بدك
+        throw new Error(
+    `Invoice ${r.invoice_id} not found for store ${storeId} (type mismatch?)`
+  );
     }
 
     const sql = `
