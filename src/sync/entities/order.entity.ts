@@ -12,8 +12,10 @@ import { Store } from './store.entity';
 export class OrderEntity {
   // @PrimaryColumn({ type: 'varchar', length: 50 })
   // id: string; // نفس id اللي في الجهاز
-  @PrimaryGeneratedColumn('increment')
-  id: number; 
+  // @PrimaryGeneratedColumn('increment')
+  // id: number; 
+  @PrimaryColumn({ type: 'uuid' })
+  id: string; 
 
   @Column({ type: 'varchar', length: 255, nullable: true })
   customer: string | null;
@@ -42,7 +44,7 @@ export class OrderEntity {
   @JoinColumn({ name: 'store_id' })
   store: Store;
 
-  @Column({ type: 'bigint', name: 'customer_id', nullable: true })
+  @Column({ type: 'uuid', name: 'customer_id', nullable: true })
   customerId: string | null; // لأن Customer عندك bigint
 }
 

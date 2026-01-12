@@ -30,8 +30,12 @@ export enum InvoiceType {
 @Index(['storeId', 'date'])
 @Index(['storeId', 'type', 'isDeleted'])
 export class Invoice {
-  @PrimaryGeneratedColumn('increment')
-  id: number;
+  // @PrimaryGeneratedColumn('increment')
+  // id: number;
+  // @PrimaryColumn({ type: 'uuid' })
+  // id: string; 
+  @PrimaryColumn({ type: 'uuid' })
+  id: string; 
 
   @Column({ type: 'int', name: 'store_id' })
   storeId: number;
@@ -50,11 +54,11 @@ export class Invoice {
   })
   type: InvoiceType;
 
-  @Column({ type: 'bigint', name: 'customer_id', nullable: true })
+  @Column({ type: 'uuid', name: 'customer_id', nullable: true })
   customerId: string | null;
 
-  @Column({ type: 'int', name: 'supplier_id', nullable: true })
-  supplierId: number | null;
+  @Column({ type: 'uuid', name: 'supplier_id', nullable: true })
+  supplierId: string | null;
 
   @Column({
     type: 'decimal',

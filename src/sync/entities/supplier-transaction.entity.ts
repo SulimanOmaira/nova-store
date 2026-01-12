@@ -25,18 +25,21 @@ export type SupplierTransactionType = 'debit' | 'credit' | 'payment';
 @Check(`"type" IN ('debit','credit','payment')`)
 export class SupplierTransaction {
 //   @PrimaryGeneratedColumn('uuid')
-  @PrimaryGeneratedColumn('increment')
-  id: number; // :contentReference[oaicite:2]{index=2}
+  // @PrimaryGeneratedColumn('increment')
+  // id: number; // :contentReference[oaicite:2]{index=2}
+
+  @PrimaryColumn({ type: 'uuid' })
+  id: string;
 
   @Column({ name: 'store_id', type: 'int' })
   storeId: number;
 
-  @Column({ name: 'supplier_id', type: 'int' })
-  supplierId: number |null;
+  @Column({ name: 'supplier_id', type: 'uuid' })
+  supplierId: string |null;
 
   // nullable كما عندك في SQLite
-  @Column({ name: 'invoice_id', type: 'int', nullable: true })
-  invoiceId?: number | null;
+  @Column({ name: 'invoice_id', type: 'uuid', nullable: true })
+  invoiceId?: string | null;
 
   // قيم مالية => numeric
   @Column({ type: 'numeric', precision: 14, scale: 2 })

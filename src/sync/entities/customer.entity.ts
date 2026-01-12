@@ -1,4 +1,4 @@
-import { Column, Entity, Index, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, Entity, Index, OneToMany, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { CustomerTransaction } from './customer-transaction.entity';
 import { Invoice } from './invoice.entity';
 
@@ -6,8 +6,10 @@ import { Invoice } from './invoice.entity';
 @Index(['storeId'])
 @Index(['updatedAt'])
 export class Customer {
-  @PrimaryGeneratedColumn('increment', { type: 'bigint' })
-  id: string;
+  // @PrimaryGeneratedColumn('increment', { type: 'bigint' })
+  // id: string;
+  @PrimaryColumn({ type: 'uuid' })
+  id: string; 
 
   @Column({ name: 'store_id', type: 'int' })
   storeId: number;

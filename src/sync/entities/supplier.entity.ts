@@ -15,8 +15,11 @@ import { SupplierTransaction } from './supplier-transaction.entity';
 
 @Entity('suppliers')
 export class Supplier {
-  @PrimaryGeneratedColumn('increment')
-  id: number
+  // @PrimaryGeneratedColumn('increment')
+  // id: number
+  @PrimaryColumn({ type: 'uuid' })
+  id: string;
+
   @Column({ type: 'int', name: 'store_id' })
   storeId: number;
 

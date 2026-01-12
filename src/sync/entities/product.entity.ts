@@ -18,8 +18,10 @@ import { Store } from './store.entity';
 
 @Entity('products')
 export class Product {
-  @PrimaryGeneratedColumn('increment')
-  id: number;
+  // @PrimaryGeneratedColumn('increment')
+  // id: number;
+  @PrimaryColumn({ type: 'uuid' })
+  id: string;
 
   @Column({ type: 'int', name: 'store_id' })
   storeId: number;
@@ -71,8 +73,8 @@ export class Product {
   @Column({ type: 'varchar', length: 500, name: 'imagepath', nullable: true })
   imagePath: string;
 
-  @Column({ type: 'int', name: 'supplier_id', nullable: true })
-  supplierId: number | null;
+  @Column({ type: 'uuid', name: 'supplier_id', nullable: true })
+  supplierId: string | null;
 
   @Column({ type: 'varchar', length: 50, default: 'unit' })
   unit: string;

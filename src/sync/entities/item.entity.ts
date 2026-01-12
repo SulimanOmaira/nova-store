@@ -3,8 +3,10 @@ import { Store } from './store.entity';
 
 @Entity('items')
 export class ItemEntity {
-  @PrimaryColumn({ type: 'varchar', length: 50 })
-  id: string;
+  // @PrimaryColumn({ type: 'varchar', length: 50 })
+  // id: string;
+  @PrimaryColumn({ type: 'uuid' })
+  id: string; 
 
   @Column({ type: 'varchar', length: 255 })
   route: string;

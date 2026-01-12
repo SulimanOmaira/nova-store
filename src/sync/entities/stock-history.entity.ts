@@ -16,14 +16,17 @@ import { Store } from './store.entity';
 @Index(['storeId', 'createdAt'])
 @Index(['productId', 'createdAt'])
 export class StockHistory {
-  @PrimaryGeneratedColumn('increment')
-  id: number;
+  // @PrimaryGeneratedColumn('increment')
+  // id: number;
+
+  @PrimaryColumn({ type: 'uuid' })
+  id: string;
 
   @Column({ type: 'int', name: 'store_id' })
   storeId: number;
 
-  @Column({ type: 'int', name: 'product_id' })
-  productId: number;
+  @Column({ type: 'uuid', name: 'product_id' })
+  productId: string;
 
   @Column({
     type: 'decimal',

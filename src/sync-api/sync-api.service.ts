@@ -434,7 +434,7 @@ if (cfg.table !== 'stores' && hasStoreId) {
 // [r.invoice_id, Number(storeId)]
 const ok = await trx.query(
   `SELECT 1 FROM "invoices" WHERE "id" = $1 AND "store_id" = $2 LIMIT 1`,
-  [Number(r.invoice_id), Number(storeId)],
+  [r.invoice_id, Number(storeId)],
     );
     if (!ok.length) {
       // continue; // أو سجلها ضمن rejected إذا بدك

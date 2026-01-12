@@ -30,17 +30,19 @@ export enum TransactionType {
 @Index(['type'])
 @Index(['storeId', 'customerId', 'isDeleted'])
 export class CustomerTransaction {
-  @PrimaryGeneratedColumn('increment')
-  id: number;
+  // @PrimaryGeneratedColumn('increment')
+  // id: number;
+  @PrimaryColumn({ type: 'uuid' })
+  id: string; 
 
   @Column({ type: 'int', name: 'store_id' })
   storeId: number;
 
-  @Column({ type: 'bigint', name: 'customer_id' })
-  customerId: number;
+  @Column({ type: 'uuid', name: 'customer_id' })
+  customerId: string;
 
-  @Column({ type: 'int', name: 'invoice_id', nullable: true })
-  invoiceId: number | null;
+  @Column({ type: 'uuid', name: 'invoice_id', nullable: true })
+  invoiceId: string | null;
 
   @Column({
     type: 'decimal',

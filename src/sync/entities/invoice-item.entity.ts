@@ -18,16 +18,18 @@ import { Product } from './product.entity';
 @Index(['productId'])
 export class InvoiceItem {
   // @PrimaryGeneratedColumn('uuid')
-  @PrimaryGeneratedColumn('increment')
-  id: number;
+  // @PrimaryGeneratedColumn('increment')
+  // id: number;
+  @PrimaryColumn({ type: 'uuid' })
+  id: string; 
 
   // FK: invoice_id
-  @Column({ name: 'invoice_id', type: 'int' })
-  invoiceId: number;
+  @Column({ name: 'invoice_id', type: 'uuid' })
+  invoiceId: string;
 
   // FK: product_id
-  @Column({ name: 'product_id', type: 'int' })
-  productId: number;
+  @Column({ name: 'product_id', type: 'uuid' })
+  productId: string;
 
   @Column({ name: 'product_name', type: 'text' })
   productName: string;

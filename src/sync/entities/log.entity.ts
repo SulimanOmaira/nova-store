@@ -15,8 +15,11 @@ import { Store } from './store.entity';
 @Index(['timestamp'])
 export class LogEntity {
   // @PrimaryGeneratedColumn('uuid')
-  @PrimaryGeneratedColumn('increment')
-  id: number; // UUID PK :contentReference[oaicite:1]{index=1}
+  // @PrimaryGeneratedColumn('increment')
+  // id: number; // UUID PK :contentReference[oaicite:1]{index=1}
+
+  @PrimaryColumn({ type: 'uuid' })
+  id: string; 
 
   @Column({ name: 'store_id', type: 'int' })
   storeId: number;

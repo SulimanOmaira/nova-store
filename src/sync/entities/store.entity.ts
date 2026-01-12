@@ -18,6 +18,8 @@ export class Store {
   // @PrimaryGeneratedColumn('uuid')
   @PrimaryGeneratedColumn('increment')
   id: number;
+  // @PrimaryColumn({ type: 'uuid' })
+  // id: string;
 
   @Column({ type: 'varchar', length: 255 })
   name: string;

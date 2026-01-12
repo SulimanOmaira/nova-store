@@ -16,8 +16,11 @@ import { Store } from './store.entity';
 @Index(['key'])
 export class StatEntity {
   // @PrimaryGeneratedColumn('uuid')
-  @PrimaryGeneratedColumn('increment')
-  id: string; // UUID PK :contentReference[oaicite:2]{index=2}
+  // @PrimaryGeneratedColumn('increment')
+  // id: string; // UUID PK :contentReference[oaicite:2]{index=2}
+
+  @PrimaryColumn({ type: 'uuid' })
+  id: string;
 
   @Column({ name: 'store_id', type: 'int' })
   storeId: number;
