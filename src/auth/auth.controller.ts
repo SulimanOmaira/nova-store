@@ -25,6 +25,25 @@ export class AuthController {
     return this.auth.loginCustomer(req.user, deviceToken);
   }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(Role.ADMIN)
+@Post('admin/logout')
+async adminLogout(@Req() req) {
+  const adminId = req.user.userId;
+  const token = req.headers.authorization?.replace('Bearer ', '');
+  return this.auth.logoutAdmin(adminId, token);
+}
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(Role.CUSTOMER)
+@Post('customer/logout')
+async customerLogout(@Req() req) {
+  const customerId = req.user.userId;
+  const token = req.headers.authorization?.replace('Bearer ', '');
+  return this.auth.logoutCustomer(customerId, token);
+}
+
+
+
   
   // @UseGuards(JwtAuthGuard, RolesGuard)
   // @Roles(Role.ADMIN)

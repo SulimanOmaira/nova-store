@@ -54,8 +54,8 @@ export class Invoice {
   })
   type: InvoiceType;
 
-  @Column({ type: 'uuid', name: 'customer_id', nullable: true })
-  customerId: string | null;
+  @Column({ type: 'bigint', name: 'customer_id', nullable: true })
+  customerId: number | null;
 
   @Column({ type: 'uuid', name: 'supplier_id', nullable: true })
   supplierId: string | null;

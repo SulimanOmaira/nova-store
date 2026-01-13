@@ -59,6 +59,29 @@ export class AuthService {
     return { access_token: access, role: 'admin' as const };
   }
 
+  async logoutAdmin(adminId: string, token?: string) {
+  if (!token) throw new BadRequestException('TOKEN_REQUIRED');
+
+  await this.aSessions.delete({
+    User_Id: adminId as any,
+    Token: token,
+  });
+
+  return { message: 'ADMIN_LOGGED_OUT' };
+}
+
+async logoutCustomer(customerId: string, token?: string) {
+  if (!token) throw new BadRequestException('TOKEN_REQUIRED');
+
+  await this.cSessions.delete({
+    User_Id: customerId as any,
+    Access_Token: token,
+  });
+
+  return { message: 'CUSTOMER_LOGGED_OUT' };
+}
+
+
     async registerAdmin(dto: CreateAUserDto) {
     const exists = await this.aUsers.findOne({ where: { UserName: dto.UserName } });
     if (exists) throw new BadRequestException('USERNAME_ALREADY_EXISTS');
@@ -172,14 +195,10 @@ async registerCustomer(dto: CreateCCustomerDto, userID: string) {
       Device_Token: deviceToken,
       Created_At: new Date(),
     });
-    return { access_token: access, role: 'customer' as const };
+    return { access_token: access, role: 'customer' as const , storeId : user.storeId
+      
+    };
   }
-
-
-
-
-
-
 
     async listCustomers(params?: { page?: number; limit?: number; includeDeleted?: boolean }) {
     const page = Math.max(1, Number(params?.page ?? 1));

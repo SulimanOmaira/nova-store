@@ -9,7 +9,7 @@ export class DeviceSyncStateEntity {
   // deviceId: string;
   //   @PrimaryGeneratedColumn('increment')
   // id: number; // ✅ PK رقمي
-  @PrimaryColumn({ type: 'uuid' })
+  @PrimaryGeneratedColumn('uuid')
   id: string; 
 
   @Column({ type: 'text', name: 'deviceId' })
