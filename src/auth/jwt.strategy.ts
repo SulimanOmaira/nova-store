@@ -3,7 +3,9 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
-export type JwtPayload = { sub: string; role: 'admin' | 'customer' };
+// export type JwtPayload = { sub: string; role: 'admin' | 'customer' };
+import { Role } from './role.enum';
+export type JwtPayload = { sub: string; role: Role };
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {

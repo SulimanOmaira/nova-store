@@ -2,11 +2,20 @@ import { ACodStatus } from 'src/a-cod-status/entities/a-cod-status.entity';
 import {
   Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn,
 } from 'typeorm';
+import { Role } from 'src/auth/role.enum';
+
 
 @Entity('a_user')
 export class AUser {
   @PrimaryGeneratedColumn('increment', { type: 'bigint' })
   Id: string;
+
+    @Column({
+    type: 'varchar',
+    length: 20,
+    default: Role.ADMIN,
+  })
+  Role: Role;
 
   @ManyToOne(() => ACodStatus, { nullable: true, onUpdate: 'RESTRICT', onDelete: 'RESTRICT' })
   @JoinColumn({ name: 'Status_Id', referencedColumnName: 'Id' })

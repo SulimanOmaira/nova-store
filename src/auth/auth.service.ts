@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ConflictException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { DataSource, Repository } from 'typeorm';
@@ -13,6 +13,9 @@ import { randomUUID } from 'crypto';
 import { Store } from 'src/sync/entities/store.entity';
 import { C_Customer } from 'src/c-customer/entities/c-customer.entity';
 import { UpdateCCustomerDto } from 'src/c-customer/dto/update-c-customer.dto';
+import { Role } from './role.enum';
+import { ConfigService } from '@nestjs/config';
+import { CreateSuperAdminDto } from 'src/a-user/dto/create_super_admin.dto';
 
 
 @Injectable()
@@ -20,6 +23,7 @@ export class AuthService {
   constructor(
     private jwt: JwtService,
     private readonly ds: DataSource, // ✅
+    private cfg: ConfigService, // ✅ أضفها
     @InjectRepository(AUser) private aUsers: Repository<AUser>,
     @InjectRepository(C_Customer) private customers: Repository<C_Customer>,
     @InjectRepository(ASession) private aSessions: Repository<ASession>,
@@ -43,20 +47,21 @@ export class AuthService {
   return ok ? user : null;
 }
 
-  async issueAccessToken(sub: string, role: 'admin'|'customer') {
+async issueAccessToken(sub: string, role: Role) {
     const payload = { sub, role };
     return this.jwt.signAsync(payload);
   }
 
   async loginAdmin(admin: AUser, deviceToken?: string) {
-    const access = await this.issueAccessToken(admin.Id, 'admin');
+    const role = admin.Role;
+    const access = await this.issueAccessToken(admin.Id, role);
     await this.aSessions.save({
       User_Id: admin.Id as any,
       Token: access,
       Device_Token: deviceToken,
       Created_At: new Date(),
     });
-    return { access_token: access, role: 'admin' as const };
+    return { access_token: access, role: role };
   }
 
   async logoutAdmin(adminId: string, token?: string) {
@@ -86,9 +91,19 @@ async logoutCustomer(customerId: string, token?: string) {
     const exists = await this.aUsers.findOne({ where: { UserName: dto.UserName } });
     if (exists) throw new BadRequestException('USERNAME_ALREADY_EXISTS');
     const hash = await bcrypt.hash(dto.Password, 10);
-    const admin = this.aUsers.create({ UserName: dto.UserName, Password: hash , F_Name : dto.F_Name , L_Name: dto.L_Name , M_Name: dto.M_Name , Phone_Number : dto.Phone_Number , Status_Id: dto.Status_Id , Created_At: new Date(),});
+    const admin = this.aUsers.create({ 
+      UserName: dto.UserName, 
+      Password: hash , 
+      F_Name : dto.F_Name ,
+      L_Name: dto.L_Name,
+      Role: Role.ADMIN,
+      M_Name: dto.M_Name , 
+      Phone_Number : dto.Phone_Number , 
+      Status_Id: dto.Status_Id , 
+      Created_At: new Date(),
+});
     await this.aUsers.save(admin);
-    return { id: admin.Id, username: admin.UserName };
+    return { id: admin.Id, username: admin.UserName,  role: admin.Role};
   }
 
 //   async registerCustomer(dto: CreateCCustomerDto , userID : string) {
@@ -188,7 +203,7 @@ async registerCustomer(dto: CreateCCustomerDto, userID: string) {
 }
 
   async loginCustomer(user: C_Customer, deviceToken?: string) {
-    const access = await this.issueAccessToken(user.Id.toString(), 'customer');
+    const access = await this.issueAccessToken(user.Id.toString(), Role.CUSTOMER);
     await this.cSessions.save({
       User_Id: user.Id as any,
       Access_Token: access,
@@ -348,5 +363,90 @@ async registerCustomer(dto: CreateCCustomerDto, userID: string) {
     await this.customers.save(user);
     return { message: 'PASSWORD_UPDATED', data: { id } };
   }
+
+  private async superAdminExists(): Promise<boolean> {
+  const count = await this.aUsers.count({ where: { Role: Role.SUPER_ADMIN as any } });
+  return count > 0;
+}
+
+private async ensureAdminUnique(username: string, phone: string) {
+  const exists = await this.aUsers.findOne({
+    where: [{ UserName: username as any }, { Phone_Number: phone as any }],
+  });
+  if (exists) throw new ConflictException('USERNAME_OR_PHONE_ALREADY_EXISTS');
+}
+
+/**
+ * ✅ Bootstrap: إنشاء أول Super Admin مرة واحدة فقط
+ * بدون JWT لكن بسكريت من env
+ */
+async bootstrapFirstSuperAdmin(dto: CreateSuperAdminDto) {
+  if (await this.superAdminExists()) {
+    throw new ForbiddenException('SUPER_ADMIN_ALREADY_EXISTS');
+  }
+
+  const secret = this.cfg.get<string>('SUPER_ADMIN_BOOTSTRAP_SECRET');
+  if (!secret || dto.bootstrapSecret !== secret) {
+    throw new ForbiddenException('BOOTSTRAP_SECRET_INVALID');
+  }
+
+  await this.ensureAdminUnique(dto.UserName, dto.Phone_Number);
+
+  const hash = await bcrypt.hash(dto.Password, 10);
+
+  const user = this.aUsers.create({
+    F_Name: dto.F_Name,
+    M_Name: dto.M_Name,
+    L_Name: dto.L_Name,
+    UserName: dto.UserName,
+    Phone_Number: dto.Phone_Number,
+    Password: hash,
+    Status_Id: dto.Status_Id ?? null,
+    Created_At: new Date(),
+    Updated_At: new Date(),
+    Role: Role.SUPER_ADMIN,
+  } as any);
+
+  const resault = await this.aUsers.insert(user);
+  // saved = 
+  const id =  resault.identifiers[0].Id
+  const saved = await this.aUsers.findOneBy({Id : id});
+  return { id: saved!.Id, username: saved!.UserName, role: saved!.Role };
+}
+
+/**
+ * ✅ إنشاء Super Admin جديد (فقط Super Admin يقدر)
+ */
+async createSuperAdmin(dto: CreateSuperAdminDto) {
+  // هون الحماية بالـ Controller عبر @Roles(SUPER_ADMIN)
+  await this.ensureAdminUnique(dto.UserName, dto.Phone_Number);
+
+  const hash = await bcrypt.hash(dto.Password, 10);
+
+  const user = this.aUsers.create({
+    F_Name: dto.F_Name,
+    M_Name: dto.M_Name,
+    L_Name: dto.L_Name,
+    UserName: dto.UserName,
+    Phone_Number: dto.Phone_Number,
+    Password: hash,
+    Status_Id: dto.Status_Id ?? null,
+    // Created_By: createdBy as any,
+    // Updated_By: createdBy as any,
+    Created_At: new Date(),
+    Updated_At: new Date(),
+    Role: Role.SUPER_ADMIN,
+  } as any);
+
+  
+  const resault = await this.aUsers.insert(user);
+  // saved = 
+  const id =  resault.identifiers[0].Id
+  const saved = await this.aUsers.findOneBy({Id : id});
+  return { id: saved!.Id, username: saved!.UserName, role: saved!.Role };
+
+  // const saved = await this.aUsers.save(user);
+  // return { id: saved.Id, username: saved.UserName, role: saved.Role };
+}
 
 }

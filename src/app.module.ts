@@ -16,6 +16,7 @@ import {
 import { SyncModule } from './sync/sync.module';
 import * as path from 'path';
 import { SyncApiModule } from './sync-api/sync-api.module';
+import { ComplaintsModule } from './complaints/complaints.module';
 
 
 @Module({
@@ -62,7 +63,7 @@ import { SyncApiModule } from './sync-api/sync-api.module';
       rejectUnauthorized: false,
     },
       dropSchema: false,    // 🟢 يمسح كل الجداول ويعيد بناءها كل مرة
-      synchronize: true,
+      synchronize: false,
       autoLoadEntities: true, 
         // اجمع الكيانات تلقائياً
         entities: [__dirname + '/**/*.entity.{ts,js}'],
@@ -70,7 +71,8 @@ import { SyncApiModule } from './sync-api/sync-api.module';
         // synchronize: true,
         migrations: [__dirname + '/migrations/*.{ts,js}'],
       }),
-    }), ACodStatusModule, ACodLangModule, AUserModule, ASessionModule, UCodCityModule, CCustomerModule, CSessionModule, SyncModule,SyncApiModule,
+    }), ACodStatusModule, ACodLangModule, AUserModule, ASessionModule, UCodCityModule, CCustomerModule, CSessionModule, SyncModule,SyncApiModule,ComplaintsModule,
+
     // ... Modules (UsersModule, CodesModule, AuthModule, CustomersModule, CitiesModule)
   ],
 })

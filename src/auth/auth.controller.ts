@@ -1,4 +1,4 @@
-import { Controller, Post, UseGuards, Req, Body, Delete, Get, Param, Patch, Query } from '@nestjs/common';
+import { Controller, Post, UseGuards, Req, Body, Delete, Get, Param, Patch, Query, ForbiddenException } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthGuard } from '@nestjs/passport';
 import { CreateAUserDto } from 'src/a-user/dto/create-a-user.dto';
@@ -8,10 +8,28 @@ import { RolesGuard } from './roles.guard';
 import { Roles } from './roles.decorator';
 import { Role } from './role.enum';
 import { UpdateCCustomerDto } from 'src/c-customer/dto/update-c-customer.dto';
+import { CreateSuperAdminDto } from 'src/a-user/dto/create_super_admin.dto';
 
 @Controller('auth')
 export class AuthController {
   constructor(private auth: AuthService) {}
+
+  // ✅ Bootstrap لأول Super Admin (مرة واحدة فقط)
+// @Post('super-admin/bootstrap')
+//   async bootstrapSuperAdmin(@Body() dto: CreateSuperAdminDto) {
+//   // return this.auth.bootstrapFirstSuperAdmin(dto);
+
+//   return this.auth.createSuperAdmin(dto);
+// }
+
+// // ✅ إنشاء Super Admin جديد (فقط Super Admin)
+// @UseGuards(JwtAuthGuard, RolesGuard)
+// @Roles(Role.SUPER_ADMIN)
+// @Post('super-admin')
+// createSuperAdmin(@Req() req, @Body() dto: CreateSuperAdminDto) {
+//   return this.auth.createSuperAdmin(dto);
+// }
+
 
   @UseGuards(AuthGuard('admin-local'))
   @Post('admin/login')
@@ -45,8 +63,8 @@ async customerLogout(@Req() req) {
 
 
   
-  // @UseGuards(JwtAuthGuard, RolesGuard)
-  // @Roles(Role.ADMIN)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.SUPER_ADMIN)
     @Post('admin/register')
   adminRegister(@Body() dto: CreateAUserDto) {
     return this.auth.registerAdmin(dto);

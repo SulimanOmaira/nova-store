@@ -27,11 +27,18 @@ export class ACodStatusController {
   findOne(@Param('id') id: string) {
     return this.aCodStatusService.findOne(id);
   }
-
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateACodStatusDto: UpdateACodStatusDto) {
-  //   return this.aCodStatusService.update(+id, updateACodStatusDto);
-  // }
+  
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
+  @Patch('update/:id')
+  update(
+    @Req() req,
+    @Param('id') id: string,
+    @Body() dto: UpdateACodStatusDto,
+  ) {
+    const adminId = req.user.userId;
+    return this.aCodStatusService.update(id, dto, adminId);
+  }
   // @UseGuards(JwtAuthGuard,RolesGuard)
   // @Roles(Role.ADMIN)
   // @Delete('delete/:id')
