@@ -1,9 +1,11 @@
-import { Controller, Post, Body, UseGuards, Get, Query } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Get, Query, Req, Param, Patch, Delete } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../auth/roles.guard';
 import { Roles } from '../auth/roles.decorator';
 import { Role } from 'src/auth/role.enum';
 import { AUserService } from './a-user.service';
+import { UpdateAUserDto } from './dto/update-a-user.dto';
+// import { CreateAUserDto } from './dto/create-a-user.dto';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('admin')
@@ -28,6 +30,34 @@ listAllCustomers(@Query('includeDeleted') includeDeleted?: string) {
   return this.admin.listAllCustomersWithStores(includeDeleted === 'true');
 }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
+  @Get('profile')
+  getMyProfile(@Req() req) {
+    return this.admin.getMyProfileFromToken(req.user.userId);
+  }
+
+
+
+ @Roles(Role.SUPER_ADMIN)
+  @Patch('update/:id')
+  updateAdmin(
+    @Param('id') id: string,
+    @Body() dto: UpdateAUserDto,
+    @Req() req: any,
+  ) {
+    // أنت عندك req.user.userId (حسب كودك)
+    return this.admin.update(id, dto, req.user.userId);
+  }
+
+@Roles(Role.SUPER_ADMIN)
+@Delete('delete/:id')
+deleteAdmin(
+  @Param('id') id: string,
+  @Req() req: any,
+) {
+  return this.admin.deleteAdminBySuperAdmin(id, req.user.userId);
+}
 
 
   // @Roles(Role.SUPER_ADMIN)
