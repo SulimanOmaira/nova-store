@@ -37,15 +37,30 @@ export class AuthService {
     return ok ? admin : null;
   }
 
-  async validateCustomer(username: string, password: string) {
-  console.log('Login attempt:', { username, password });
-  const user = await this.customers.findOne({ where: { Username: username } });
-  console.log('Found user:', user);
+//   async validateCustomer(username: string, password: string) {
+//   console.log('Login attempt:', { username, password });
+//   const user = await this.customers.findOne({ where: { Username: username } });
+//   console.log('Found user:', user);
+//   if (!user) return null;
+//   const ok = await bcrypt.compare(password, user.Password);
+//   console.log('Password match:', ok);
+//   return ok ? user : null;
+// }
+async validateCustomer(username: string, password: string) {
+  const user = await this.customers.findOne({
+    where: { Username: username },
+    relations: {
+      store: true,
+      Status: true,
+    },
+  });
+
   if (!user) return null;
+
   const ok = await bcrypt.compare(password, user.Password);
-  console.log('Password match:', ok);
   return ok ? user : null;
 }
+
 
 async issueAccessToken(sub: string, role: Role) {
     const payload = { sub, role };
@@ -202,18 +217,42 @@ async registerCustomer(dto: CreateCCustomerDto, userID: string) {
   });
 }
 
-  async loginCustomer(user: C_Customer, deviceToken?: string) {
-    const access = await this.issueAccessToken(user.Id.toString(), Role.CUSTOMER);
-    await this.cSessions.save({
-      User_Id: user.Id as any,
-      Access_Token: access,
-      Device_Token: deviceToken,
-      Created_At: new Date(),
-    });
-    return { access_token: access, role: 'customer' as const , storeId : user.storeId
+  // async loginCustomer(user: C_Customer, deviceToken?: string) {
+  //   const access = await this.issueAccessToken(user.Id.toString(), Role.CUSTOMER);
+  //   await this.cSessions.save({
+  //     User_Id: user.Id as any,
+  //     Access_Token: access,
+  //     Device_Token: deviceToken,
+  //     Created_At: new Date(),
+  //   });
+  //   return { access_token: access, role: 'customer' as const , storeId : user.storeId , adress: user.Adress
       
-    };
-  }
+  //   };
+  // }
+  async loginCustomer(user: C_Customer, deviceToken?: string) {
+  const access = await this.issueAccessToken(user.Id.toString(), Role.CUSTOMER);
+
+  await this.cSessions.save({
+    User_Id: user.Id as any,
+    Access_Token: access,
+    Device_Token: deviceToken,
+    Created_At: new Date(),
+  });
+
+  return {
+    access_token: access,
+    role: 'customer' as const,
+    storeId: user.storeId,
+    adress: user.Adress,
+
+    // ✅ إضافاتك الجديدة
+    storeName: user.store?.name ?? null,
+    status: user.Status
+      ? { id: user.Status.Id, en: user.Status.En_Name, ar: user.Status.Ar_Name }
+      : null,
+  };
+}
+
 
     async listCustomers(params?: { page?: number; limit?: number; includeDeleted?: boolean }) {
     const page = Math.max(1, Number(params?.page ?? 1));
@@ -331,7 +370,7 @@ async registerCustomer(dto: CreateCCustomerDto, userID: string) {
         data: {
           id: user.Id,
           username: user.Username,
-          storeId: user.storeId,
+          storeId: user.storeId,          
         },
       };
     });
