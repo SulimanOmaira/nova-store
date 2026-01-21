@@ -62,8 +62,8 @@ import { ComplaintsModule } from './complaints/complaints.module';
             ssl: {
       rejectUnauthorized: false,
     },
-      dropSchema: true,    // 🟢 يمسح كل الجداول ويعيد بناءها كل مرة
-      synchronize: true,
+      dropSchema: false,    // 🟢 يمسح كل الجداول ويعيد بناءها كل مرة
+      synchronize: false,
       autoLoadEntities: true, 
         // اجمع الكيانات تلقائياً
         entities: [__dirname + '/**/*.entity.{ts,js}'],
