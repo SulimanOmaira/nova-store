@@ -45,7 +45,9 @@ export class ComplaintsService {
     const skip = (Math.max(page, 1) - 1) * take;
 
     const [items, total] = await this.complaintRepo.findAndCount({
-      where: { Customer_Id: customerId },
+      // where: { Customer_Id: customerId },
+          where: { Customer_Id: String(Number(customerId)) }, // ✅ أو Number حسب تعريفك
+
       order: { Created_At: 'DESC' },
       skip,
       take,
