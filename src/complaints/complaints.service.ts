@@ -44,14 +44,21 @@ export class ComplaintsService {
     const take = Math.min(Math.max(limit, 1), 100);
     const skip = (Math.max(page, 1) - 1) * take;
 
-    const [items, total] = await this.complaintRepo.findAndCount({
-      // where: { Customer_Id: customerId },
-          where: { Customer_Id: String(Number(customerId)) }, // ✅ أو Number حسب تعريفك
+    // const [items, total] = await this.complaintRepo.findAndCount({
+    //   // where: { Customer_Id: customerId },
+    //       where: { Customer_Id: String(Number(customerId)) }, // ✅ أو Number حسب تعريفك
 
-      order: { Created_At: 'DESC' },
-      skip,
-      take,
-    });
+    //   order: { Created_At: 'DESC' },
+    //   skip,
+    //   take,
+    // });
+    const [items, total] = await this.complaintRepo
+  .createQueryBuilder('c')
+  .where('c."Customer_Id" = :cid', { cid: customerId })
+  .orderBy('c."Created_At"', 'DESC')
+  .skip(skip)
+  .take(take)
+  .getManyAndCount();
 
     return { items, total, page: Math.max(page, 1), limit: take };
   }
